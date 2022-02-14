@@ -3,6 +3,7 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
+#include <unistd.h> 
 
 
 
@@ -13,13 +14,23 @@ int main(){
     printf("Press the stop button on the elevator panel to exit\n");
 
     elevio_motorDirection(DIRN_UP);
+    MotorDirection dir = DIRN_UP;
 
     while(1){
         int floor = elevio_floorSensor();
         printf("floor: %d \n",floor);
 
-        if(floor == 0){
-            elevio_motorDirection(DIRN_UP);
+        if(floor != -1){
+            elevio_motorDirection(DIRN_STOP);
+            elevio_doorOpenLamp(1);
+            sleep(3);
+            elevio_doorOpenLamp(0);
+            if(dir == DIRN_UP){
+                elevio_motorDirection(DIRN_UP);
+            } else {
+                elevio_motorDirection(DIRN_DOWN);
+            }
+            
         }
 
         if(floor == N_FLOORS-1){
