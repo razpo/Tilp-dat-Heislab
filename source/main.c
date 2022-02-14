@@ -15,26 +15,24 @@ int main(){
 
     elevio_motorDirection(DIRN_UP);
     MotorDirection dir = DIRN_UP;
-
+    int currFloor = -1;
     while(1){
         int floor = elevio_floorSensor();
         printf("floor: %d \n",floor);
 
-        if(floor != -1){
+        if(floor != -1 && floor != currFloor){
+	    currFloor = floor;
             elevio_motorDirection(DIRN_STOP);
             elevio_doorOpenLamp(1);
             sleep(3);
             elevio_doorOpenLamp(0);
-            if(dir == DIRN_UP){
-                elevio_motorDirection(DIRN_UP);
-            } else {
-                elevio_motorDirection(DIRN_DOWN);
-            }
+            elevio_motorDirection(dir);
             
         }
 
         if(floor == N_FLOORS-1){
-            elevio_motorDirection(DIRN_DOWN);
+	    dir = DIRN_DOWN;
+            elevio_motorDirection(dir);
         }
 
 
