@@ -27,11 +27,14 @@ int main(){
             sleep(3);
             elevio_doorOpenLamp(0);
             elevio_motorDirection(dir);
-            
+            elevio_floorIndicator(currFloor);
         }
-
+        if(floor == 0){
+            dir = DIRN_UP;
+            elevio_motorDirection(dir);
+        }
         if(floor == N_FLOORS-1){
-	    dir = DIRN_DOWN;
+	        dir = DIRN_DOWN;
             elevio_motorDirection(dir);
         }
 
