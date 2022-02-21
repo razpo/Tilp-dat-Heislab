@@ -6,7 +6,7 @@
 #include "door.h"
 
 void openDoor(int floor, int* doorOpen, time_t* startTime){
-    printf("Door opening")
+    printf("Door opening");
     elevio_motorDirection(DIRN_STOP);
     elevio_floorIndicator(floor);
     elevio_doorOpenLamp(1);
