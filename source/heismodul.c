@@ -26,19 +26,17 @@ int move_to_floor(int floor){
     }    
 };
 
-
-
-
-
-
-
-void emergencyStop(void){
+int CheckEmergency(void){
     int stopButton = elevio_stopButton();
     if(stopButton== 1) {
         elevio_motorDirection(DIRN_STOP);
+        elevio_stopLamp(1);
         // heiskøen må slettes
+        return 1;
     }
-
+    else {
+        return 0;
+    }
 }
 
 
