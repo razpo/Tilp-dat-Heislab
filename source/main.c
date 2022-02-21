@@ -17,21 +17,23 @@ int main(){
     MotorDirection dir = DIRN_UP;
     int nextFloor = 1;
     int floor = elevio_floorSensor();
+    int lastFloor;
     // startup: move down until elevator reaches any floor. 
     while(floor == -1){
         floor = elevio_floorSensor();
         elevio_motorDirection(DIRN_DOWN);
     }
-    nextFloor = floor + 1;
+    lastFloor = floor;
     
     while(1){
+        
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);
 
-        if(floor != -1 && floor != currFloor){
-	    currFloor = floor;
+        if(floor != -1 && floor != lastFloor){
+	        lastFloor = floor;
             elevio_motorDirection(DIRN_STOP);
-            elevio_floorIndicator(currFloor);
+            elevio_floorIndicator(lastFloor);
             elevio_doorOpenLamp(1);
             sleep(3);
             elevio_doorOpenLamp(0);
