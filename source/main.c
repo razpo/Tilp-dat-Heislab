@@ -40,6 +40,7 @@ int main(){
             } else {
                 if(elevio_obstruction()){
                     startTime = time(NULL);
+                    printf("Obstruction \n");
                 }
                 if(time(NULL) - startTime > 3){
                     lastFloor = closeDoor(floor, &doorOpen);
