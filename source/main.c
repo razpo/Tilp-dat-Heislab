@@ -5,7 +5,7 @@
 #include "driver/elevio.h"
 #include <unistd.h> 
 
-
+void arrivedDestinationFloor(int floor);
 
 int main(){
     elevio_init();
@@ -15,19 +15,27 @@ int main(){
 
     elevio_motorDirection(DIRN_UP);
     MotorDirection dir = DIRN_UP;
-    int currFloor = -1;
+    int nextFloor = 1;
+    int floor = elevio_floorSensor();
+    // startup: move down until elevator reaches any floor. 
+    while(floor == -1){
+        floor = elevio_floorSensor();
+        elevio_motorDirection(DIRN_DOWN);
+    }
+    nextFloor = floor + 1;
+    
     while(1){
-        int floor = elevio_floorSensor();
+        floor = elevio_floorSensor();
         printf("floor: %d \n",floor);
 
         if(floor != -1 && floor != currFloor){
 	    currFloor = floor;
             elevio_motorDirection(DIRN_STOP);
+            elevio_floorIndicator(currFloor);
             elevio_doorOpenLamp(1);
             sleep(3);
             elevio_doorOpenLamp(0);
             elevio_motorDirection(dir);
-            elevio_floorIndicator(currFloor);
         }
         if(floor == 0){
             dir = DIRN_UP;
@@ -61,4 +69,17 @@ int main(){
     }
 
     return 0;
+}
+
+void arrivedDestinationFLoor(int floor){
+    time_t startTime = time(NULL);
+
+    elevio_motorDirection(DIRN_STOP);
+    elevio_floorIndicator(floor);
+    elevio_doorOpenLamp(1);
+    if(time(NULL) - startTime > 3){
+        elevio_doorOpenLamp(0);
+        return;
+    }
+    
 }
