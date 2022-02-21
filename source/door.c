@@ -6,17 +6,14 @@
 #include "door.h"
 
 void openDoor(int floor, int* doorOpen, time_t* startTime){
-    printf("Door opening");
+    printf("Door opening \n");
     elevio_motorDirection(DIRN_STOP);
     elevio_floorIndicator(floor);
     elevio_doorOpenLamp(1);
     *doorOpen = 1;
-    if(elevio_obstruction){
-        *startTime = time(NULL);
-        printf("Obstruction");
-    }
+    *startTime = time(NULL);
 }
 int closeDoor(int floor, int* doorOpen){
     elevio_doorOpenLamp(0);
-    printf("Door closing");
+    printf("Door closing \n");
 }

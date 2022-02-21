@@ -4,6 +4,7 @@
 #include <time.h>
 #include "driver/elevio.h"
 #include "heismodul.h"
+#include "door.h"
 
 
 int main(){
@@ -25,6 +26,7 @@ int main(){
         elevio_motorDirection(DIRN_DOWN);
     } 
     elevio_motorDirection(DIRN_STOP);
+    lastFloor = floor;
     printf("Elevator ready, now sleep for two seconds just to testing\n");
     sleep(2);
     while(1){
@@ -32,23 +34,26 @@ int main(){
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(floor != -1 && floor != lastFloor){
-	        openDoor(floor, &doorOpen, &startTime);
-            if(time(NULL) - startTime > 3){
-                lastFloor = closeDoor(floor, &doorOpen);
-            }
             if(!doorOpen){
-                elevio_motorDirection(dir);
+                openDoor(floor, &doorOpen, &startTime);
+            } else {
+                if(elevio_obstruction){
+                    startTime = time(NULL);
+                }
+                if(time(NULL) - startTime > 3){
+                    lastFloor = closeDoor(floor, &doorOpen);
+                    elevio_motorDirection(dir);
+                }
             }
         }
+
         //skeleton_project: make elevator go up and down (forever)
         if(!doorOpen){
             if(floor == 0){
                 dir = DIRN_UP;
-                elevio_motorDirection(dir);
             }
             if(floor == N_FLOORS-1){
                 dir = DIRN_DOWN;
-                elevio_motorDirection(dir);
             }
         }
         
