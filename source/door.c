@@ -5,7 +5,7 @@
 #include "driver/elevio.h"
 #include "door.h"
 
-int arrivedDestinationFLoor(int floor){
+int arrivedDestinationFloor(int floor){
     time_t startTime = time(NULL);
 
     elevio_motorDirection(DIRN_STOP);
