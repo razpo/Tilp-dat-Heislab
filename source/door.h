@@ -20,7 +20,7 @@ void openDoor(int floor, int* doorOpen, time_t* startTime);
  * @brief Closes the doors and sets doorOpen = 0.
  * 
  * @param[in] floor The floor the elevator currently is at.
- * @param[out] doorOpen nteger value for whether or not doors are open.  
+ * @param[out] doorOpen Integer value for whether or not doors are open.  
  * @return floor, to set lastFloor equal to last floor visited.  
  */
 int closeDoor(int floor, int* doorOpen);

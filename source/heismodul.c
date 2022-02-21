@@ -1,3 +1,12 @@
+/**
+ * @file heismodul.c
+ * @brief Implementation of functions for controlling the physical model
+ * @version 0.1
+ * @date 2022-02-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <assert.h>
 #include <stdlib.h>
 #include <sys/types.h>

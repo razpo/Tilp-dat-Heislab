@@ -1,3 +1,8 @@
+/**
+ * @file elevio.h
+ * @brief Given functions and variables for communication with the controller box. 
+ * 
+ */
 #pragma once
 
 
