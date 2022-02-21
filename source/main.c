@@ -3,9 +3,7 @@
 #include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
-#include <unistd.h> 
 
-void arrivedDestinationFloor(int floor);
 
 int main(){
     elevio_init();
@@ -28,17 +26,12 @@ int main(){
     while(1){
         
         floor = elevio_floorSensor();
-        printf("floor: %d \n",floor);
-
+        printf("floor: %d \n",floor);  
+        //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(floor != -1 && floor != lastFloor){
-	        lastFloor = floor;
-            elevio_motorDirection(DIRN_STOP);
-            elevio_floorIndicator(lastFloor);
-            elevio_doorOpenLamp(1);
-            sleep(3);
-            elevio_doorOpenLamp(0);
-            elevio_motorDirection(dir);
+	        lastFloor = arrivedDestinationFloor(floor);
         }
+        //skeleton_project: make elevator go up and down (forever)
         if(floor == 0){
             dir = DIRN_UP;
             elevio_motorDirection(dir);
@@ -71,17 +64,4 @@ int main(){
     }
 
     return 0;
-}
-
-void arrivedDestinationFLoor(int floor){
-    time_t startTime = time(NULL);
-
-    elevio_motorDirection(DIRN_STOP);
-    elevio_floorIndicator(floor);
-    elevio_doorOpenLamp(1);
-    if(time(NULL) - startTime > 3){
-        elevio_doorOpenLamp(0);
-        return;
-    }
-    
 }
