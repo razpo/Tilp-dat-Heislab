@@ -38,7 +38,7 @@ int main(){
             if(!doorOpen){
                 openDoor(floor, &doorOpen, &startTime);
             } else {
-                if(elevio_obstruction){
+                if(elevio_obstruction()){
                     startTime = time(NULL);
                 }
                 if(time(NULL) - startTime > 3){
