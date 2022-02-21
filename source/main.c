@@ -37,7 +37,10 @@ int main(){
     printf("Elevator ready, now sleep for two seconds just to testing\n");
     sleep(2);
     elevio_motorDirection(DIRN_UP);
+    
     while(1){
+        int emergencyVal = checkEmergency();
+        if (emergencyVal == 1) {break;}
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
