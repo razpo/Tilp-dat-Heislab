@@ -5,17 +5,18 @@
 #include "driver/elevio.h"
 #include "door.h"
 
-int arrivedDestinationFloor(int floor){
-    time_t startTime = time(NULL);
-
+void openDoor(int floor, int* doorOpen, time_t* startTime){
+    printf("Door opening")
     elevio_motorDirection(DIRN_STOP);
     elevio_floorIndicator(floor);
     elevio_doorOpenLamp(1);
-    while(time(NULL) - startTime < 3){
-        if(elevio_obstruction()){
-            startTime = time(NULL);
-        }
+    *doorOpen = 1;
+    if(elevio_obstruction){
+        *startTime = time(NULL);
+        printf("Obstruction");
     }
+}
+int closeDoor(int floor, int* doorOpen){
     elevio_doorOpenLamp(0);
-    return floor;
+    printf("Door closing");
 }

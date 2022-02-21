@@ -11,37 +11,46 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    elevio_motorDirection(DIRN_UP);
     MotorDirection dir = DIRN_UP;
+
     int nextFloor = 1;
     int floor = elevio_floorSensor();
-    int lastFloor;
+    int lastFloor = -1;
+    int doorOpen = 0;
+    time_t startTime = time(NULL);
     // startup: move down until elevator reaches any floor. 
     while(floor == -1){
         floor = elevio_floorSensor();
         elevio_motorDirection(DIRN_DOWN);
     } 
-    
-    lastFloor = arrivedDestinationFloor(floor);
-    elevio_motorDirection(dir);
+    elevio_motorDirection(DIRN_STOP);
+    printf("Elevator ready, now sleep for two seconds just to testing\n");
+    sleep(2);
     while(1){
-        
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(floor != -1 && floor != lastFloor){
-	        lastFloor = arrivedDestinationFloor(floor);
-            elevio_motorDirection(dir);
+	        openDoor(floor, &doorOpen);
+            if(time(NULL) - startTime > 3){
+                lastFloor = closeDoor(floor, &doorOpen);
+            }
+            if(!doorOpen){
+                elevio_motorDirection(dir);
+            }
         }
         //skeleton_project: make elevator go up and down (forever)
-        if(floor == 0){
-            dir = DIRN_UP;
-            elevio_motorDirection(dir);
+        if(!doorOpen){
+            if(floor == 0){
+                dir = DIRN_UP;
+                elevio_motorDirection(dir);
+            }
+            if(floor == N_FLOORS-1){
+                dir = DIRN_DOWN;
+                elevio_motorDirection(dir);
+            }
         }
-        if(floor == N_FLOORS-1){
-	        dir = DIRN_DOWN;
-            elevio_motorDirection(dir);
-        }
+        
 
 
         for(int f = 0; f < N_FLOORS; f++){
