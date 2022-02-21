@@ -32,7 +32,7 @@ int main(){
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(floor != -1 && floor != lastFloor){
-	        openDoor(floor, &doorOpen);
+	        openDoor(floor, &doorOpen, &startTime);
             if(time(NULL) - startTime > 3){
                 lastFloor = closeDoor(floor, &doorOpen);
             }
