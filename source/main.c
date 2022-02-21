@@ -20,8 +20,9 @@ int main(){
     while(floor == -1){
         floor = elevio_floorSensor();
         elevio_motorDirection(DIRN_DOWN);
-    }
-    lastFloor = floor;
+    } 
+    
+    lastFloor = arrivedDestinationFloor(floor);
     
     while(1){
         
@@ -30,6 +31,7 @@ int main(){
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(floor != -1 && floor != lastFloor){
 	        lastFloor = arrivedDestinationFloor(floor);
+            elevio_motorDirection(dir);
         }
         //skeleton_project: make elevator go up and down (forever)
         if(floor == 0){
