@@ -34,20 +34,25 @@ int main(){
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
-        int arrived = move_to_floor(2);
-        if(arrived){
-            if(!doorOpen){
-                openDoor(floor, &doorOpen, &startTime);
-            } else {
-                if(elevio_obstruction()){
-                    startTime = time(NULL);
-                    printf("Obstruction \n");
-                }
-                if(time(NULL) - startTime > 3){
-                    lastFloor = closeDoor(floor, &doorOpen);
+        if(nextFloor != -1){
+            int arrived = move_to_floor(nextFloor);
+            if(arrived){
+                if(!doorOpen){
+                    openDoor(floor, &doorOpen, &startTime);
+                } else {
+                    if(elevio_obstruction()){
+                        startTime = time(NULL);
+                        printf("Obstruction \n");
+                    }
+                    if(time(NULL) - startTime > 3){
+                        lastFloor = closeDoor(floor, &doorOpen);
+                        nextFloor = -1;
+                        //nextFloor = (nextFloor + 1) % (N_FLOORS - 1);
+                    }
                 }
             }
         }
+        
         /*
         if(floor != -1 && floor != lastFloor){
             if(!doorOpen){
