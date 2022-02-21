@@ -29,6 +29,7 @@ int main(){
     lastFloor = floor;
     printf("Elevator ready, now sleep for two seconds just to testing\n");
     sleep(2);
+    elevio_motorDirection(DIRN_UP);
     while(1){
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
