@@ -19,7 +19,10 @@ void move_to_floor(int floor){
             elevio_motorDirection(DIRN_DOWN);
         }
     }
-    elevio_motorDirection(DIRN_STOP);
+    if (current_floor == floor){
+        elevio_motorDirection(DIRN_STOP);
+    }
+    
 };
 
 
