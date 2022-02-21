@@ -1,5 +1,5 @@
 /**
- * @file heismodul.c
+ * @file elevator.c
  * @brief Implementation of functions for controlling the physical model
  * @version 0.1
  * @date 2022-02-21
@@ -15,7 +15,7 @@
 #include <stdio.h>
 #include <pthread.h>
 
-#include "heismodul.h"
+#include "elevator.h"
 #include "driver/elevio.h"
 
 int move_to_floor(int floor){
