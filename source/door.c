@@ -1,3 +1,12 @@
+/**
+ * @file door.c
+ * @brief Implementation of the door-functions
+ * @version 0.1
+ * @date 2022-02-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>

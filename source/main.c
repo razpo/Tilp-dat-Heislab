@@ -1,3 +1,10 @@
+/**
+ * @file main.c
+ * @brief The main file of the application.
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -56,21 +63,6 @@ int main(){
             }
         }
         
-        /*
-        if(floor != -1 && floor != lastFloor){
-            if(!doorOpen){
-                openDoor(floor, &doorOpen, &startTime);
-            } else {
-                if(elevio_obstruction()){
-                    startTime = time(NULL);
-                    printf("Obstruction \n");
-                }
-                if(time(NULL) - startTime > 3){
-                    lastFloor = closeDoor(floor, &doorOpen);
-                    elevio_motorDirection(dir);
-                }
-            }
-        }*/
 
         //skeleton_project: make elevator go up and down (forever)
         
