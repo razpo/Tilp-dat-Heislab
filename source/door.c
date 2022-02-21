@@ -16,4 +16,5 @@ void openDoor(int floor, int* doorOpen, time_t* startTime){
 int closeDoor(int floor, int* doorOpen){
     elevio_doorOpenLamp(0);
     printf("Door closing \n");
+    return floor;
 }
