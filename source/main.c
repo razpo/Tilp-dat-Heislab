@@ -23,7 +23,7 @@ int main(){
     } 
     
     lastFloor = arrivedDestinationFloor(floor);
-    
+    elevio_motorDirection(dir);
     while(1){
         
         floor = elevio_floorSensor();
