@@ -9,7 +9,7 @@
 #include "heismodul.h"
 #include "driver/elevio.h"
 
-void move_to_floor(int floor){
+int move_to_floor(int floor){
     int current_floor = elevio_floorSensor();
     if(current_floor != floor){
         if (current_floor < floor){
@@ -18,9 +18,11 @@ void move_to_floor(int floor){
         if (current_floor > floor){
             elevio_motorDirection(DIRN_DOWN);
         }
+        return 0;
     }
     if (current_floor == floor){
         elevio_motorDirection(DIRN_STOP);
+        return 1;
     }
     
 };

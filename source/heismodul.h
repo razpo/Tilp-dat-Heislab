@@ -1,3 +1,3 @@
 #pragma once
 
-void move_to_floor(int floor);
+int move_to_floor(int floor);

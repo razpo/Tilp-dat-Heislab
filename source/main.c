@@ -34,6 +34,20 @@ int main(){
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
+        if(move_to_floor(2)){
+            if(!doorOpen){
+                openDoor(floor, &doorOpen, &startTime);
+            } else {
+                if(elevio_obstruction()){
+                    startTime = time(NULL);
+                    printf("Obstruction \n");
+                }
+                if(time(NULL) - startTime > 3){
+                    lastFloor = closeDoor(floor, &doorOpen);
+                }
+            }
+        }
+        /*
         if(floor != -1 && floor != lastFloor){
             if(!doorOpen){
                 openDoor(floor, &doorOpen, &startTime);
@@ -47,7 +61,7 @@ int main(){
                     elevio_motorDirection(dir);
                 }
             }
-        }
+        }*/
 
         //skeleton_project: make elevator go up and down (forever)
         
