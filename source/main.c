@@ -49,13 +49,12 @@ int main(){
         }
 
         //skeleton_project: make elevator go up and down (forever)
-        if(!doorOpen){
-            if(floor == 0){
-                dir = DIRN_UP;
-            }
-            if(floor == N_FLOORS-1){
-                dir = DIRN_DOWN;
-            }
+        
+        if(floor == 0){
+            dir = DIRN_UP;
+        }
+        if(floor == N_FLOORS-1){
+            dir = DIRN_DOWN;
         }
         
 
