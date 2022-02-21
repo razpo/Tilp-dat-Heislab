@@ -11,7 +11,7 @@
 
 int move_to_floor(int floor){
     int current_floor = elevio_floorSensor();
-    if(current_floor != floor && current_floor != -1){
+    if(current_floor != floor){
         if (current_floor < floor){
             elevio_motorDirection(DIRN_UP);
         }
@@ -23,9 +23,23 @@ int move_to_floor(int floor){
     if (current_floor == floor){
         elevio_motorDirection(DIRN_STOP);
         return 1;
-    }
-    
+    }    
 };
+
+
+
+
+
+
+
+void emergencyStop(void){
+    int stopButton = elevio_stopButton();
+    if(stopButton== 1) {
+        elevio_motorDirection(DIRN_STOP);
+        // heiskøen må slettes
+    }
+
+}
 
 
 
