@@ -34,7 +34,8 @@ int main(){
         floor = elevio_floorSensor();
         printf("floor: %d \n",floor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
-        if(move_to_floor(2)){
+        int arrived = move_to_floor(2);
+        if(arrived){
             if(!doorOpen){
                 openDoor(floor, &doorOpen, &startTime);
             } else {
