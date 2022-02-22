@@ -11,7 +11,7 @@
 #include "door.h"
 
 /**
- * @file door.c
+ * @file elevator.c
  * @brief Implementation of the elevator-functions
  * @version 0.1
  * @date 2022-02-21
