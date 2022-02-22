@@ -53,13 +53,6 @@ int CheckEmergency(void){
     }
     else {
         elevio_stopLamp(0);
-                    if(elevio_obstruction()){
-                        startTime = time(NULL);
-                        printf("Obstruction \n");
-                    }
-                    if(time(NULL) - startTime > 3){
-                        closeDoor(current_floor, &doorOpen);
-                    }
         return 0;    
     }
 }
