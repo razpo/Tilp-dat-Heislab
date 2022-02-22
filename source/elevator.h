@@ -9,5 +9,15 @@
  */
 #pragma once
 
+/**
+ * @brief Movement to given floor. 
+ * @param[in] floor The floor the elevator is set to move to.  
+ * @return motorDirection value
+*/
 int move_to_floor(int floor);
+
+/**
+ * @brief Sets elevator to emergency mode
+ * @return emergencyValue
+ */
 int checkEmergency(void);

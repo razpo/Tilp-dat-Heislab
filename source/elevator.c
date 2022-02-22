@@ -1,12 +1,3 @@
-/**
- * @file elevator.c
- * @brief Implementation of functions for controlling the physical model
- * @version 0.1
- * @date 2022-02-21
- * 
- * @copyright Copyright (c) 2022
- * 
- */
 #include <assert.h>
 #include <stdlib.h>
 #include <sys/types.h>
@@ -17,6 +8,17 @@
 
 #include "elevator.h"
 #include "driver/elevio.h"
+#include "door.h"
+
+/**
+ * @file door.c
+ * @brief Implementation of the elevator-functions
+ * @version 0.1
+ * @date 2022-02-21
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 
 int move_to_floor(int floor){
     int current_floor = elevio_floorSensor();
@@ -37,14 +39,28 @@ int move_to_floor(int floor){
 
 int CheckEmergency(void){
     int stopButton = elevio_stopButton();
+    int current_floor = elevio_floorSensor();
+    int doorOpen;
+    time_t startTime;
     if(stopButton== 1) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
-        // heiskøen må slettes
+        // heiskøen må slettes, for loop
+        if ((current_floor != -1)&&(doorOpen == 0)){
+            openDoor(current_floor,&doorOpen,&startTime);
+        }
         return 1;
     }
     else {
-        return 0;
+        elevio_stopLamp(0);
+                    if(elevio_obstruction()){
+                        startTime = time(NULL);
+                        printf("Obstruction \n");
+                    }
+                    if(time(NULL) - startTime > 3){
+                        closeDoor(current_floor, &doorOpen);
+                    }
+        return 0;    
     }
 }
 
