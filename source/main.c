@@ -32,7 +32,9 @@ int main(){
     elevio_motorDirection(DIRN_UP);
     
     while(1){
-        if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {break;}
+        if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
+            nextFloor = -1;
+        } 
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
@@ -48,8 +50,8 @@ int main(){
                     }
                     if(time(NULL) - g_startTime > 3){
                         lastFloor = closeDoor(g_currFloor, &g_doorOpen);
-                        nextFloor = -1;
-                        //nextFloor = (nextFloor + 1) % (N_FLOORS - 1);
+                        //nextFloor = -1;
+                        nextFloor = (nextFloor + 1) % (N_FLOORS);
                     }
                 }
             }

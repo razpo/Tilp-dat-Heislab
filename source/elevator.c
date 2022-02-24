@@ -19,23 +19,24 @@
 
 int moveToFloor(int destinationFloor){
     int currentFloor = elevio_floorSensor();
-    if(currentFloor != destinationFloor){
-        if (currentFloor < destinationFloor){
-            elevio_motorDirection(DIRN_UP);
+    if(currentFloor != -1){
+        if(currentFloor != destinationFloor){
+            if (currentFloor < destinationFloor){
+                elevio_motorDirection(DIRN_UP);
+            }
+            if (currentFloor > destinationFloor){
+                elevio_motorDirection(DIRN_DOWN);
+            }
+            return 0;
         }
-        if (currentFloor > destinationFloor){
-            elevio_motorDirection(DIRN_DOWN);
-        }
-        return 0;
     }
-    if (currentFloor == floor){
+    if (currentFloor == destinationFloor){
         elevio_motorDirection(DIRN_STOP);
         return 1;
     }    
 };
 
 int checkEmergency(int floor, int* doorOpen, time_t* startTime){
-    int doorOpen = &g_doorOpen;
     if(elevio_stopButton()) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
@@ -43,6 +44,7 @@ int checkEmergency(int floor, int* doorOpen, time_t* startTime){
         if ((floor != -1) && (doorOpen == 0)) {
             openDoor(floor, doorOpen, startTime);
         }
+        printf("Emergency state \n");
         return 1;
     }
     else {
