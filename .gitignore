@@ -50,3 +50,14 @@ modules.order
 Module.symvers
 Mkfile.old
 dkms.conf
+
+# Doxygen files
+*.css
+*.tmp
+*.js
+*.png
+*.dot
+*.sty
+*.html
+*.tex
+latex/Makefile

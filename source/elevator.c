@@ -35,7 +35,7 @@ int moveToFloor(int destinationFloor){
         return 1;
     }    
 };
-
+//should this be in main? or elevatorcontroller?
 int checkEmergency(int floor, int* doorOpen, time_t* startTime){
     if(elevio_stopButton()) {
         elevio_motorDirection(DIRN_STOP);
