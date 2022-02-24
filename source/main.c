@@ -16,39 +16,38 @@ int main(){
     MotorDirection dir = DIRN_UP;
 
     int nextFloor = 1;
-    int floor = elevio_floorSensor();
+    int g_currFloor = elevio_floorSensor();
     int lastFloor = -1;
-    int doorOpen = 0;
-    time_t startTime = time(NULL);
+    int g_doorOpen = 0;
+    time_t g_startTime = time(NULL);
     // startup: move down until elevator reaches any floor. 
-    while(floor == -1){
-        floor = elevio_floorSensor();
+    while(g_currFloor == -1){
+        g_currFloor = elevio_floorSensor();
         elevio_motorDirection(DIRN_DOWN);
     } 
     elevio_motorDirection(DIRN_STOP);
-    lastFloor = floor;
-    printf("Elevator ready, now sleep for two seconds just to testing\n");
+    lastFloor = g_currFloor;
+    printf("Elevator ready, now sleep for two seconds just for testing\n");
     sleep(2);
     elevio_motorDirection(DIRN_UP);
     
     while(1){
-        int emergencyVal = checkEmergency();
-        if (emergencyVal == 1) {break;}
-        floor = elevio_floorSensor();
-        printf("floor: %d \n",floor);  
+        if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {break;}
+        g_currFloor = elevio_floorSensor();
+        printf("floor: %d \n",g_currFloor);  
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(nextFloor != -1){
-            int arrived = move_to_floor(nextFloor);
+            int arrived = moveToFloor(nextFloor);
             if(arrived){
-                if(!doorOpen){
-                    openDoor(floor, &doorOpen, &startTime);
+                if(!g_doorOpen){
+                    openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
                     if(elevio_obstruction()){
-                        startTime = time(NULL);
+                        g_startTime = time(NULL);
                         printf("Obstruction \n");
                     }
-                    if(time(NULL) - startTime > 3){
-                        lastFloor = closeDoor(floor, &doorOpen);
+                    if(time(NULL) - g_startTime > 3){
+                        lastFloor = closeDoor(g_currFloor, &g_doorOpen);
                         nextFloor = -1;
                         //nextFloor = (nextFloor + 1) % (N_FLOORS - 1);
                     }
@@ -74,10 +73,10 @@ int main(){
 
         //skeleton_project: make elevator go up and down (forever)
         
-        if(floor == 0){
+        if(g_currFloor == 0){
             dir = DIRN_UP;
         }
-        if(floor == N_FLOORS-1){
+        if(g_currFloor == N_FLOORS-1){
             dir = DIRN_DOWN;
         }
         

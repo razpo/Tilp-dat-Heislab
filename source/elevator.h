@@ -8,16 +8,19 @@
  * 
  */
 #pragma once
-
 /**
- * @brief Movement to given floor. 
- * @param[in] floor The floor the elevator is set to move to.  
- * @return motorDirection value
-*/
-int move_to_floor(int floor);
-
-/**
- * @brief Sets elevator to emergency mode
- * @return emergencyValue
+ * @brief Decides whether elevator should move up or down to reach destination floor. Function is continuously called, until floor is reached. 
+ * 
+ * @param[in] destinationFloor Floor that elevator should move towards.
+ * @return int 0 if elevator is not yet at destination, 1 if destination is reached. 
  */
-int checkEmergency(void);
+int moveToFloor(int destinationFloor);
+
+/**
+ * @brief Sets elevator to emergency state. All parameters are used to open doors. 
+ * @param[in] floor The floor the elevator currently is at.  
+ * @param[in] doorOpen Integer value for whether or not doors are open.  
+ * @param[in] startTime System time when doors opened, used to count to 3 seconds.  
+ * @return int 0 if not emergency, 1 if emergency 
+ */
+int checkEmergency(int floor, int* doorOpen, time_t* startTime);
