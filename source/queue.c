@@ -97,6 +97,10 @@
 
 
 
+void removeFloorOrder(int floor){
+    floorOrders[floor-1] = NO_ORDER;  
+}
+
 
 void emptyFloorOrder(){
     floorOrders[0] = NO_ORDER;

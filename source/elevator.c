@@ -6,15 +6,14 @@
  */
 #include <assert.h>
 #include <stdlib.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netdb.h>
-#include <stdio.h>
-#include <pthread.h>
+
 
 #include "elevator.h"
 #include "driver/elevio.h"
 #include "door.h"
+#include "time.h"
+#include "queue.h"
+
 
 
 int moveToFloor(int destinationFloor){
@@ -40,7 +39,7 @@ int checkEmergency(int floor, int* doorOpen, time_t* startTime){
     if(elevio_stopButton()) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
-        // heiskøen må slettes, for loop
+        emptyFloorOrders();
         if ((floor != -1) && (doorOpen == 0)) {
             openDoor(floor, doorOpen, startTime);
         }
