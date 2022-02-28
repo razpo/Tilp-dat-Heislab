@@ -7,7 +7,7 @@ int getClosestFloor(int possibleDestinations[], int lastFloor){
 
     for (int i = 0; i < N_FLOORS; i++)
     {
-        if (possibleDestinations[i] = 1 && (i - lastFloor < i - closestDestination))
+        if (possibleDestinations[i] = 1 && (abs(i - lastFloor) < abs(i - closestDestination)))
         {
             closestDestination = i;
         } 
