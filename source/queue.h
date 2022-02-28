@@ -8,7 +8,7 @@
  * 
  */
 #pragma once
-#include <elevio.h>
+#include "driver/elevio.h"
 
 typedef enum{
     NO_ORDER = 0,
@@ -19,7 +19,8 @@ typedef enum{
 } OrderType; 
 
 
-OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
+static OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
+
 
 /**
  * @brief sets the elevator destination based on elevators movement and position and order array
@@ -40,7 +41,7 @@ int getDestination(MotorDirection direction, int lastFloor);
  * 
  */
 
-void getClosestFloor(int possibleDestinations[], int lastFloor);
+int getClosestFloor(int possibleDestinations[], int lastFloor);
 
 void addFloorOrder(int requestedFloor, ButtonType btnType);
 /**
