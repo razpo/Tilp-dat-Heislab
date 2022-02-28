@@ -3,10 +3,8 @@
 int getClosestFloor(int possibleDestinations[], int lastFloor){
     int closestDestination = -1;
 
-    for (int i = 0; i < N_FLOORS; i++)
-    {
-        if (possibleDestinations[i] = 1 && (i - lastFloor < i - closestDestination))
-        {
+    for (int i = 0; i < N_FLOORS; i++){
+        if (possibleDestinations[i] = 1 && (i - lastFloor < i - closestDestination)){
             closestDestination = i;
         } 
     }
@@ -17,21 +15,17 @@ int getDestination(MotorDirection direction, int lastFloor){
     int possible_destinations[] = {1,1,1,1};
 
     for(int i = 0;i<N_FLOORS;i++){
-        if ((floorOrders[i] == NO_ORDER) || (floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (floorOrders[i] == HALL_DOWN && direction == DIRN_UP))
-        {
+        if ((floorOrders[i] == NO_ORDER) || (floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (floorOrders[i] == HALL_DOWN && direction == DIRN_UP)){
             possible_destinations[i] = 0;
         }
     };
 
     return getClosestFloor(possible_destinations, lastFloor);
-
 }
-
 
 void removeFloorOrder(int floor){
     floorOrders[floor] = NO_ORDER;  
 }
-
 
 void emptyFloorOrders(){
     for (int i = 0; i < N_FLOORS; i++)

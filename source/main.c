@@ -14,7 +14,7 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    int g_nextFloor = 1;
+    int g_nextFloor = -1;
     int g_currFloor = elevio_floorSensor();
     int g_lastFloor = -1;
     int g_doorOpen = 0;
@@ -28,9 +28,10 @@ int main(){
     elevio_motorDirection(DIRN_STOP);
     printf("Elevator ready, now sleep for two seconds just for testing\n");
     sleep(2);
+    /*
     g_dir = DIRN_DOWN;
     elevio_motorDirection(g_dir);
-    
+    */
     while(1){
         if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
             g_nextFloor = -1;
@@ -38,11 +39,11 @@ int main(){
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
 
-
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(g_currFloor != -1 && g_currFloor != g_lastFloor){
             g_lastFloor = g_currFloor;
             elevio_floorIndicator(g_lastFloor);
+            g_nextFloor = getDestination(g_dir, g_lastFloor);
         }
         if(g_nextFloor != -1){
             int arrived = moveToFloor(g_nextFloor);
@@ -61,7 +62,7 @@ int main(){
                     if(time(NULL) - g_startTime > 3){
                         closeDoor(g_currFloor, &g_doorOpen);
                         //nextFloor = -1;
-                        g_nextFloor = (g_nextFloor + 1) % (N_FLOORS);
+                        g_nextFloor = getDestination(g_dir, g_lastFloor);
                     }
                 }
             }
@@ -76,6 +77,7 @@ int main(){
                     printf("Button type: %d", buttonType);
                     addFloorOrder(floor, buttonType);
                     elevio_buttonLamp(floor, buttonType, 1);
+                    g_nextFloor = getDestination(g_dir, g_lastFloor);
                 }
             }
         }

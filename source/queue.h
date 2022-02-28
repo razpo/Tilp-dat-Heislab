@@ -41,7 +41,7 @@ int getDestination(MotorDirection direction, int lastFloor);
  * 
  */
 
-void getClosestFloor(int possibleDestinations[], int lastFloor);
+int getClosestFloor(int possibleDestinations[], int lastFloor);
 
 void addFloorOrder(int requestedFloor, ButtonType btnType);
 /**
