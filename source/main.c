@@ -43,6 +43,7 @@ int main(){
             int arrived = moveToFloor(g_nextFloor);
             if(arrived){
                 if(!g_doorOpen){
+                    removeFloorOrder(g_currFloor);
                     openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
                     if(elevio_obstruction()){
