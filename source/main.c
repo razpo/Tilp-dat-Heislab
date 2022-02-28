@@ -44,6 +44,9 @@ int main(){
             if(arrived){
                 if(!g_doorOpen){
                     removeFloorOrder(g_currFloor);
+                    for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
+                        elevio_buttonLamp(g_currFloor, buttonType, 0);
+                    }
                     openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
                     if(elevio_obstruction()){
