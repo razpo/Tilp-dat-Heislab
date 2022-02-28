@@ -18,7 +18,6 @@ void openDoor(int floor, int* doorOpen, time_t* startTime){
     printf("Arrived at %d \n", floor);
     printf("Door opening \n");
     elevio_motorDirection(DIRN_STOP);
-    elevio_floorIndicator(floor);
     elevio_doorOpenLamp(1);
     *doorOpen = 1;
     *startTime = time(NULL);

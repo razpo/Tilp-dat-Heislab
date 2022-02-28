@@ -16,6 +16,7 @@ int main(){
 
     int g_nextFloor = 1;
     int g_currFloor = elevio_floorSensor();
+    int g_lastFloor = -1;
     int g_doorOpen = 0;
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
@@ -39,6 +40,10 @@ int main(){
 
 
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
+        if(g_currFloor != -1 && g_currFloor != g_lastFloor){
+            g_lastFloor = g_currFloor;
+            elevio_floorIndicator(g_lastFloor);
+        }
         if(g_nextFloor != -1){
             int arrived = moveToFloor(g_nextFloor);
             if(arrived){
