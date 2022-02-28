@@ -46,7 +46,7 @@ int main(){
             elevio_floorIndicator(g_lastFloor);
             g_nextFloor = getDestination(g_dir, g_lastFloor);
         }
-        if(g_nextFloor != -1){
+        if(g_nextFloor != -1 && !g_doorOpen){
             int arrived = moveToFloor(g_nextFloor);
             if(arrived){
                 if(!g_doorOpen){
