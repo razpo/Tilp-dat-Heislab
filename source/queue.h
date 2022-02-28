@@ -12,13 +12,13 @@
 
 typedef enum{
     NO_ORDER = 0,
-    BUTTON_HALL_UP = 1,
-    BUTTON_HALL_DOWN = 2,
-    BUTTON_HALL_UP_AND_DOWN = 3,
-    BUTTON_CAB = 4
+    HALL_UP = 1,
+    HALL_DOWN = 2,
+    HALL_UP_AND_DOWN = 3,
+    CAB = 4
 } OrderType; 
 
-OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
+static OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
 
 /**
  * @brief sets the elevator destination based on elevators movement and position and order array

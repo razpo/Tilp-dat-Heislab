@@ -5,6 +5,7 @@
 #include "driver/elevio.h"
 #include "elevator.h"
 #include "door.h"
+#include "queue.h"
 
 
 int main(){
@@ -26,7 +27,7 @@ int main(){
     elevio_motorDirection(DIRN_STOP);
     printf("Elevator ready, now sleep for two seconds just for testing\n");
     sleep(2);
-    g_dir = DIRN_UP;
+    g_dir = DIRN_DOWN;
     elevio_motorDirection(g_dir);
     
     while(1){
@@ -35,6 +36,8 @@ int main(){
         } 
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
+
+
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
         if(g_nextFloor != -1){
             int arrived = moveToFloor(g_nextFloor);
@@ -64,10 +67,11 @@ int main(){
             g_dir = DIRN_DOWN;
         }
         
-        for(int f = 0; f < N_FLOORS; f++){
-            for(int b = 0; b < N_BUTTONS; b++){
-                int btnPressed = elevio_callButton(f, b);
-                elevio_buttonLamp(f, b, btnPressed);
+        for(int floor = 0; floor < N_FLOORS; floor++){
+            for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
+                if(elevio_callButton(floor, buttonType)){
+                    addFloorOrder(floor, buttonType);
+                }
             }
         }
 
@@ -84,6 +88,7 @@ int main(){
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
+
 
     return 0;
 }

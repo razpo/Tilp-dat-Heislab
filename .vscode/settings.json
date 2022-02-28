@@ -3,6 +3,8 @@
         "types.h": "c",
         "assert.h": "c",
         "stdlib.h": "c",
-        "time.h": "c"
+        "time.h": "c",
+        "queue.h": "c",
+        "door.h": "c"
     }
 }
