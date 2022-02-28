@@ -25,7 +25,8 @@ int main(){
         g_currFloor = elevio_floorSensor();
         elevio_motorDirection(g_dir);
     } 
-    elevio_motorDirection(DIRN_STOP);
+    g_dir = DIRN_STOP;
+    elevio_motorDirection(g_dir);
     printf("Elevator ready, now sleep for two seconds just for testing\n");
     sleep(2);
     /*
@@ -50,6 +51,7 @@ int main(){
             if(arrived){
                 if(!g_doorOpen){
                     removeFloorOrder(g_currFloor);
+                    g_dir = DIRN_STOP;
                     for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
                         elevio_buttonLamp(g_currFloor, buttonType, 0);
                     }
