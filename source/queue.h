@@ -12,28 +12,36 @@
 
 typedef enum{
     NO_ORDER = 0,
-    BUTTON_HALL_UP = 1,
-    BUTTON_HALL_DOWN = 2,
-    BUTTON_HALL_UP_AND_DOWN = 3,
-    BUTTON_CAB = 4
+    HALL_UP = 1,
+    HALL_DOWN = 2,
+    HALL_UP_AND_DOWN = 3,
+    CAB = 4
 } OrderType; 
+
 
 OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
 
 /**
  * @brief sets the elevator destination based on elevators movement and position and order array
- * 
+ *
  * @param direction direction of elevators movement
  * @param position position of the elevator, either at or inbetween floors
  * 
+ * @return elevator desination
+
+ *
  */
-int setDestination(MotorDirection direction, int position);
+int getDestination(MotorDirection direction, int lastFloor);
 /**
  * @brief adds floor order to orders array when a button is pressed
  * 
  * @param requestedFloor 
  * @param btnType 
+ * 
  */
+
+void getClosestFloor(int possibleDestinations[], int lastFloor);
+
 void addFloorOrder(int requestedFloor, ButtonType btnType);
 /**
  * @brief removes an order from the order array. Used when elevator has arrived
