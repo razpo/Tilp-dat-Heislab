@@ -3,7 +3,7 @@
 
 
 void removeFloorOrder(int floor){
-    floorOrders[floor-1] = NO_ORDER;  
+    floorOrders[floor] = NO_ORDER;  
 }
 
 
