@@ -61,19 +61,13 @@ int main(){
 
         //skeleton_project: make elevator go up and down (forever)
         
-        if(g_currFloor == 0){
-            g_dir = DIRN_UP;
-        }
-        if(g_currFloor == N_FLOORS-1){
-            g_dir = DIRN_DOWN;
-        }
-        
         for(int floor = 0; floor < N_FLOORS; floor++){
             for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
                 if(elevio_callButton(floor, buttonType)){
                     printf("Button for floor %d pressed", floor);
                     printf("Button type: %d", buttonType);
                     addFloorOrder(floor, buttonType);
+                    elevio_buttonLamp(floor, buttonType, 1);
                 }
             }
         }
