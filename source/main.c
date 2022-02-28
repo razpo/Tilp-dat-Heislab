@@ -5,6 +5,7 @@
 #include "driver/elevio.h"
 #include "elevator.h"
 #include "door.h"
+#include "queue.h"
 
 
 int main(){
@@ -13,78 +14,69 @@ int main(){
     printf("=== Example Program ===\n");
     printf("Press the stop button on the elevator panel to exit\n");
 
-    MotorDirection dir = DIRN_UP;
-
-    int nextFloor = 1;
-    int floor = elevio_floorSensor();
-    int lastFloor = -1;
-    int doorOpen = 0;
-    time_t startTime = time(NULL);
+    int g_nextFloor = 1;
+    int g_currFloor = elevio_floorSensor();
+    int g_lastFloor = -1;
+    int g_doorOpen = 0;
+    time_t g_startTime = time(NULL);
+    MotorDirection g_dir = DIRN_DOWN;
     // startup: move down until elevator reaches any floor. 
-    while(floor == -1){
-        floor = elevio_floorSensor();
-        elevio_motorDirection(DIRN_DOWN);
+    while(g_currFloor == -1){
+        g_currFloor = elevio_floorSensor();
+        elevio_motorDirection(g_dir);
     } 
     elevio_motorDirection(DIRN_STOP);
-    lastFloor = floor;
-    printf("Elevator ready, now sleep for two seconds just to testing\n");
+    printf("Elevator ready, now sleep for two seconds just for testing\n");
     sleep(2);
-    elevio_motorDirection(DIRN_UP);
+    g_dir = DIRN_DOWN;
+    elevio_motorDirection(g_dir);
     
     while(1){
-        int emergencyVal = checkEmergency();
-        if (emergencyVal == 1) {break;}
-        floor = elevio_floorSensor();
-        printf("floor: %d \n",floor);  
+        if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
+            g_nextFloor = -1;
+        } 
+        g_currFloor = elevio_floorSensor();
+        printf("floor: %d \n",g_currFloor);  
+
+
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
-        if(nextFloor != -1){
-            int arrived = move_to_floor(nextFloor);
+        if(g_currFloor != -1 && g_currFloor != g_lastFloor){
+            g_lastFloor = g_currFloor;
+            elevio_floorIndicator(g_lastFloor);
+        }
+        if(g_nextFloor != -1){
+            int arrived = moveToFloor(g_nextFloor);
             if(arrived){
-                if(!doorOpen){
-                    openDoor(floor, &doorOpen, &startTime);
+                if(!g_doorOpen){
+                    removeFloorOrder(g_currFloor);
+                    for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
+                        elevio_buttonLamp(g_currFloor, buttonType, 0);
+                    }
+                    openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
                     if(elevio_obstruction()){
-                        startTime = time(NULL);
+                        g_startTime = time(NULL);
                         printf("Obstruction \n");
                     }
-                    if(time(NULL) - startTime > 3){
-                        lastFloor = closeDoor(floor, &doorOpen);
-                        nextFloor = -1;
-                        //nextFloor = (nextFloor + 1) % (N_FLOORS - 1);
+                    if(time(NULL) - g_startTime > 3){
+                        closeDoor(g_currFloor, &g_doorOpen);
+                        //nextFloor = -1;
+                        g_nextFloor = (g_nextFloor + 1) % (N_FLOORS);
                     }
                 }
             }
         }
-        
-        /*
-        if(floor != -1 && floor != lastFloor){
-            if(!doorOpen){
-                openDoor(floor, &doorOpen, &startTime);
-            } else {
-                if(elevio_obstruction()){
-                    startTime = time(NULL);
-                    printf("Obstruction \n");
-                }
-                if(time(NULL) - startTime > 3){
-                    lastFloor = closeDoor(floor, &doorOpen);
-                    elevio_motorDirection(dir);
-                }
-            }
-        }*/
 
         //skeleton_project: make elevator go up and down (forever)
         
-        if(floor == 0){
-            dir = DIRN_UP;
-        }
-        if(floor == N_FLOORS-1){
-            dir = DIRN_DOWN;
-        }
-        
-        for(int f = 0; f < N_FLOORS; f++){
-            for(int b = 0; b < N_BUTTONS; b++){
-                int btnPressed = elevio_callButton(f, b);
-                elevio_buttonLamp(f, b, btnPressed);
+        for(int floor = 0; floor < N_FLOORS; floor++){
+            for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
+                if(elevio_callButton(floor, buttonType)){
+                    printf("Button for floor %d pressed", floor);
+                    printf("Button type: %d", buttonType);
+                    addFloorOrder(floor, buttonType);
+                    elevio_buttonLamp(floor, buttonType, 1);
+                }
             }
         }
 
@@ -101,6 +93,7 @@ int main(){
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
+
 
     return 0;
 }
