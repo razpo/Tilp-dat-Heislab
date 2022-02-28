@@ -70,6 +70,8 @@ int main(){
         for(int floor = 0; floor < N_FLOORS; floor++){
             for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
                 if(elevio_callButton(floor, buttonType)){
+                    printf("Button for floor %d pressed", floor);
+                    printf("Button type: %d", buttonType);
                     addFloorOrder(floor, buttonType);
                 }
             }
