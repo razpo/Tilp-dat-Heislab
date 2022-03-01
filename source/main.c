@@ -64,7 +64,7 @@ int main(){
                     elevio_floorIndicator(g_lastFloor);
                     g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 }
-                int arrived = elevator_moveToFloor(g_nextFloor);
+                int arrived = elevator_moveToFloor(g_nextFloor, &g_dir);
                 if (arrived) {
                     state = ARRIVED;
                 }
@@ -74,7 +74,6 @@ int main(){
                 printf("State: Arrived \n");
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
-                    g_dir = DIRN_STOP;
                     for (int b = 0; b < N_BUTTONS; b++) {
                         elevio_buttonLamp(g_currFloor, b, 0);
                     }

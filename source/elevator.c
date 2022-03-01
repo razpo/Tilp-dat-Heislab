@@ -14,20 +14,22 @@
 
 
 
-int elevator_moveToFloor(int destinationFloor) {
+int elevator_moveToFloor(int destinationFloor, MotorDirection *dir) {
     int currentFloor = elevio_floorSensor();
     if (currentFloor != -1) {
         if (currentFloor != destinationFloor) {
             if (currentFloor < destinationFloor) {
-                elevio_motorDirection(DIRN_UP);
+                *dir = DIRN_UP;
             }
             if (currentFloor > destinationFloor) {
-                elevio_motorDirection(DIRN_DOWN);
+                *dir = DIRN_DOWN;
             }
+            elevio_motorDirection(*dir);
         }
     }
     if (currentFloor == destinationFloor) {
-        elevio_motorDirection(DIRN_STOP);
+        *dir = DIRN_STOP;
+        elevio_motorDirection(*dir);
         return 1;
     }   
     return 0; 
