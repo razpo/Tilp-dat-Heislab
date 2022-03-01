@@ -46,7 +46,7 @@ int main(){
                 printf("State: rest \n");
                 printf("Kjører test\n");
                 sleep(2);
-                int k = elevator_moveToFloor(4, DIRN_UP);
+                int k = elevator_moveToFloor(4, DIRN_STOP);
                 sleep(2);
                 printf("Børr være i etasje 4");
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
