@@ -9,7 +9,6 @@
  */
 #pragma once
 
-#include "driver/elevio.h"
 /**
  * @brief Decides whether elevator should move up or down to reach destination floor. Function is continuously called, until floor is reached. 
  * 

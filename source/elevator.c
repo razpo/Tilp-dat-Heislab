@@ -7,10 +7,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include "elevator.h"
 #include "driver/elevio.h"
 #include "door.h"
 #include "controller.h"
+#include "elevator.h"
 
 
 int elevator_moveToFloor(int destinationFloor, MotorDirection *dir) {
