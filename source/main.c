@@ -40,7 +40,7 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
-        int test = 3;
+        int test = 2;
         //state machine:
         switch (state) {
             case REST:
