@@ -95,6 +95,7 @@ int main(){
                 }
                 break;
             case EMERGENCY:
+                printf("State: Emergency");
                 if(!elevio_stopButton()) {
                     elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
                     state = REST;
