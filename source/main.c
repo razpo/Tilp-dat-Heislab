@@ -33,6 +33,7 @@ int main(){
     elevio_motorDirection(g_dir);
     */
    while (1) {
+        g_currFloor = elevio_floorSensor();
         if (elevio_stopButton()) {
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
             state = EMERGENCY;
@@ -48,12 +49,14 @@ int main(){
         //state machine:
         switch (state) {
             case REST:
+                printf("State: rest");
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
                 }
                 break;
             case EXECUTING: {
+                printf("State: executing");
                 int arrived = elevator_moveToFloor(g_nextFloor);
                 if (arrived) {
                     state = ARRIVED;
@@ -66,7 +69,8 @@ int main(){
                 break;
             }
             case ARRIVED:
-                if (!g_doorOpen) {
+                printf("State: Arrived");
+                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
                     g_dir = DIRN_STOP;
                     for (int b = 0; b < N_BUTTONS; b++) {
