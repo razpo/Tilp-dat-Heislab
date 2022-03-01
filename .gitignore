@@ -65,3 +65,4 @@ latex/Makefile
 elevator
 .vscode/tasks.json
 .vscode/launch.json
+SimElevatorServer
