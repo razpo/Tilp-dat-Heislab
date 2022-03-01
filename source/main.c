@@ -40,8 +40,7 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
-        int test = 0;
-        MotorDirection dir = DIRN_STOP;
+        int test = 1;
         //state machine:
         switch (state) {
             case REST:
