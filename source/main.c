@@ -58,6 +58,7 @@ int main(){
                 break;
             case EXECUTING: {
                 printf("State: executing \n");
+                printf("destination: %d \n", g_nextFloor);
                 int arrived = elevator_moveToFloor(g_nextFloor);
                 if (arrived) {
                     state = ARRIVED;
