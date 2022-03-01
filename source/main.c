@@ -44,7 +44,7 @@ int main(){
         switch (state) {
             case REST:
                 printf("State: rest \n");
-                printf("Kjører test");
+                printf("Kjører test\n");
                 sleep(2);
                 elevator_moveToFloor(4, DIRN_UP);
                 sleep(2);
