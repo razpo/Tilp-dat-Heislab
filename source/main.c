@@ -49,14 +49,14 @@ int main(){
         //state machine:
         switch (state) {
             case REST:
-                printf("State: rest");
+                printf("State: rest \n");
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
                 }
                 break;
             case EXECUTING: {
-                printf("State: executing");
+                printf("State: executing \n");
                 int arrived = elevator_moveToFloor(g_nextFloor);
                 if (arrived) {
                     state = ARRIVED;
@@ -69,7 +69,7 @@ int main(){
                 break;
             }
             case ARRIVED:
-                printf("State: Arrived");
+                printf("State: Arrived \n");
                  if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
                     g_dir = DIRN_STOP;
@@ -95,7 +95,7 @@ int main(){
                 }
                 break;
             case EMERGENCY:
-                printf("State: Emergency");
+                printf("State: Emergency \n");
                 if(!elevio_stopButton()) {
                     elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
                     state = REST;
