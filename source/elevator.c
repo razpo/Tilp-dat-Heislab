@@ -38,9 +38,9 @@ int checkEmergency(int floor, int *doorOpen, time_t *startTime){
     if (elevio_stopButton()) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
-        emptyFloorOrders();
-        if ((floor != -1) && (doorOpen == 0)) {
-            openDoor(floor, doorOpen, startTime);
+        controller_emptyFloorOrders();
+        if ((floor != -1) && (!doorOpen)) {
+            door_openDoor(floor, doorOpen, startTime);
         }
         printf("Emergency state \n");
         return 1;
