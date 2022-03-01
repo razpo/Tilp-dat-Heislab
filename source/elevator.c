@@ -25,9 +25,11 @@ int elevator_moveToFloor(int destinationFloor) {
                 elevio_motorDirection(DIRN_DOWN);
             }
         }
+        return 0;
     }
     if (currentFloor == destinationFloor) {
         elevio_motorDirection(DIRN_STOP);
+        return 1;
     }    
 }
 //should this be in main? or elevatorcontroller?
@@ -46,10 +48,8 @@ void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int acti
 }
 
 void elevator_init() {
-    time_t startTime = time(NULL);
     MotorDirection dir = DIRN_DOWN;
     int currFloor = elevio_floorSensor();
-
     // startup: move down until elevator reaches any floor.
     for (int f = 0; f < N_FLOORS; f++) {
         for (int b = 0; b < N_BUTTONS; b++) {
