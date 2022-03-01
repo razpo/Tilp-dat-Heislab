@@ -25,4 +25,4 @@ int elevator_moveToFloor(int destinationFloor);
  */
 void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int activate);
 
-void elevator_init()
+void elevator_init();
