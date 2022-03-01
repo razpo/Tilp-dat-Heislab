@@ -16,7 +16,8 @@ enum states {
 
 int main(){
     elevio_init();
-    printf("elevio init done \n");
+
+
     printf("=== ELEVATOR INIT ===\n");
     elevator_init();
     
@@ -58,14 +59,14 @@ int main(){
             case EXECUTING: {
                 printf("State: executing \n");
                 printf("destination: %d \n", g_nextFloor);
-                int arrived = elevator_moveToFloor(g_nextFloor);
-                if (arrived) {
-                    state = ARRIVED;
-                }
                 if (g_currFloor != -1) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
                     g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                }
+                int arrived = elevator_moveToFloor(g_nextFloor);
+                if (arrived) {
+                    state = ARRIVED;
                 }
                 break;
             }
