@@ -40,10 +40,14 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
+        int test = 4;
         //state machine:
         switch (state) {
             case REST:
                 printf("State: rest \n");
+                printf("Kjører test");
+                sleep(2);
+                int k = elevator_moveToFloor(test, DIRN_UP);
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
