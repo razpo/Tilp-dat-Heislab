@@ -41,6 +41,7 @@ int main(){
     while (1) {
         if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
             g_nextFloor = -1;
+            continue;
         } 
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
@@ -93,11 +94,6 @@ int main(){
             elevio_stopLamp(1);
         } else {
             elevio_stopLamp(0);
-        }
-        
-        if (elevio_stopButton()) {
-            elevio_motorDirection(DIRN_STOP);
-            break;
         }
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
