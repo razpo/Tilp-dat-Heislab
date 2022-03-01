@@ -70,7 +70,7 @@ int main(){
             }
             case ARRIVED:
                 printf("State: Arrived \n");
-                 if (!g_doorOpen) {
+                if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
                     g_dir = DIRN_STOP;
                     for (int b = 0; b < N_BUTTONS; b++) {
