@@ -23,7 +23,7 @@ static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORD
 
 
 /**
- * @brief sets the elevator destination based on elevators movement and position and order array
+ * @brief returns the elevator destination based on elevators movement and position and order array
  *
  * @param direction direction of elevators movement
  * @param position position of the elevator, either at or inbetween floors
