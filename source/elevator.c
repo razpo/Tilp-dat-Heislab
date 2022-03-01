@@ -13,7 +13,6 @@
 #include "controller.h"
 
 
-
 int elevator_moveToFloor(int destinationFloor, MotorDirection *dir) {
     int currentFloor = elevio_floorSensor();
     if (currentFloor != -1) {
