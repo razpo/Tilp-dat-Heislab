@@ -47,6 +47,12 @@ int main(){
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
+                // test
+                printf("Kjører test");
+                sleep(2);
+                elevator_moveToFloor(DIRN_UP,4);
+                sleep(2);
+                printf("Børr være i etasje 4");
                 }
                 break;
             case EXECUTING: {
