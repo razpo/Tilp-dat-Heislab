@@ -63,7 +63,7 @@ int main(){
                 if (arrived) {
                     state = ARRIVED;
                 }
-                if (g_currFloor != -1 && g_currFloor != g_lastFloor) {
+                if (g_currFloor != -1) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
                     g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
