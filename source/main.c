@@ -40,7 +40,7 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
-        int test = 2;
+        int test = 0;
         MotorDirection dir = DIRN_STOP;
         //state machine:
         switch (state) {
