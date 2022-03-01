@@ -34,6 +34,7 @@ int main(){
     */
    while (1) {
         g_currFloor = elevio_floorSensor();
+        printf("floor: %d \n",g_currFloor);  
         if (elevio_stopButton()) {
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
             state = EMERGENCY;
