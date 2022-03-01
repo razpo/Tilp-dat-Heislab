@@ -44,15 +44,14 @@ int main(){
         switch (state) {
             case REST:
                 printf("State: rest \n");
-                g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                if (g_nextFloor != -1) {
-                    state = EXECUTING;
-                // test
                 printf("Kjører test");
                 sleep(2);
                 elevator_moveToFloor(4, DIRN_UP);
                 sleep(2);
                 printf("Børr være i etasje 4");
+                g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                if (g_nextFloor != -1) {
+                    state = EXECUTING;
                 }
                 break;
             case EXECUTING: {
