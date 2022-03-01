@@ -50,10 +50,10 @@ int main(){
             case REST:
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
-                state = EXECUTING;
+                    state = EXECUTING;
                 }
                 break;
-            case EXECUTING:
+            case EXECUTING: {
                 int arrived = elevator_moveToFloor(g_nextFloor);
                 if (arrived) {
                     state = ARRIVED;
@@ -64,6 +64,7 @@ int main(){
                 }
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 break;
+            }
             case ARRIVED:
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
