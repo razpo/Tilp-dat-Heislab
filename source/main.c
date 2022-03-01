@@ -50,7 +50,7 @@ int main(){
                 // test
                 printf("Kjører test");
                 sleep(2);
-                elevator_moveToFloor(DIRN_UP,4);
+                elevator_moveToFloor(4, DIRN_UP);
                 sleep(2);
                 printf("Børr være i etasje 4");
                 }
