@@ -40,14 +40,15 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
-        int test = 2;
+        int test = 0;
+        MotorDirection dir = DIRN_DOWN;
         //state machine:
         switch (state) {
             case REST:
                 printf("State: rest \n");
                 printf("Kjører test\n");
                 sleep(2);
-                int k = elevator_moveToFloor(test, &g_dir);
+                int k = elevator_moveToFloor(test, &dir);
                 
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
