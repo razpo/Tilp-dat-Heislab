@@ -37,6 +37,7 @@ int main(){
         printf("floor: %d \n",g_currFloor);  
         if (elevio_stopButton()) {
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
+            g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
         //state machine:
