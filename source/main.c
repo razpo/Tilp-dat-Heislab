@@ -16,11 +16,10 @@ enum states {
 
 int main(){
     elevio_init();
+    printf("elevio init done \n");
+    printf("=== ELEVATOR INIT ===\n");
     elevator_init();
     
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
-
     int g_nextFloor = -1;
     int g_currFloor = elevio_floorSensor();
     int g_lastFloor = -1;
