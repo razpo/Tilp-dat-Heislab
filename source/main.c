@@ -5,7 +5,7 @@
 #include "driver/elevio.h"
 #include "elevator.h"
 #include "door.h"
-#include "queue.h"
+#include "controller.h"
 
 
 int main(){
@@ -20,8 +20,13 @@ int main(){
     int g_doorOpen = 0;
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
-    // startup: move down until elevator reaches any floor. 
-    while(g_currFloor == -1){
+    // startup: move down until elevator reaches any floor.
+    for (int f = 0; f < N_FLOORS; f++) {
+        for (int b = 0; b < N_BUTTONS; b++) {
+            elevio_buttonLamp(f, b, 0);
+        }
+    } 
+    while (g_currFloor == -1) {
         g_currFloor = elevio_floorSensor();
         elevio_motorDirection(g_dir);
     } 
@@ -33,7 +38,7 @@ int main(){
     g_dir = DIRN_DOWN;
     elevio_motorDirection(g_dir);
     */
-    while(1){
+    while (1) {
         if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
             g_nextFloor = -1;
         } 
@@ -41,65 +46,62 @@ int main(){
         printf("floor: %d \n",g_currFloor);  
 
         //test for arrivedDestination floor: when elevator reaches any floor, open door.
-        if(g_currFloor != -1 && g_currFloor != g_lastFloor){
+        if (g_currFloor != -1 && g_currFloor != g_lastFloor) {
             g_lastFloor = g_currFloor;
             elevio_floorIndicator(g_lastFloor);
-            g_nextFloor = getDestination(g_dir, g_lastFloor);
+            g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
         }
-        if(g_nextFloor != -1){
-            int arrived = moveToFloor(g_nextFloor);
-            if(arrived){
-                if(!g_doorOpen){
-                    removeFloorOrder(g_currFloor);
+        if (g_nextFloor != -1) {
+            int arrived = elevator_moveToFloor(g_nextFloor);
+            if (arrived) {
+                if (!g_doorOpen) {
+                    controller_removeFloorOrder(g_currFloor);
                     g_dir = DIRN_STOP;
-                    for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
-                        elevio_buttonLamp(g_currFloor, buttonType, 0);
+                    for (int b = 0; b < N_BUTTONS; b++) {
+                        elevio_buttonLamp(g_currFloor, b, 0);
                     }
-                    openDoor(g_currFloor, &g_doorOpen, &g_startTime);
+                    door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
-                    if(elevio_obstruction()){
+                    if (elevio_obstruction()) {
                         g_startTime = time(NULL);
                         printf("Obstruction \n");
                     }
-                    if(time(NULL) - g_startTime > 3){
-                        closeDoor(g_currFloor, &g_doorOpen);
+                    if (time(NULL) - g_startTime > 3) {
+                        door_closeDoor(g_currFloor, &g_doorOpen);
                         //nextFloor = -1;
-                        g_nextFloor = getDestination(g_dir, g_lastFloor);
+                        g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                     }
                 }
             }
         }
 
-        //skeleton_project: make elevator go up and down (forever)
-        
-        for(int floor = 0; floor < N_FLOORS; floor++){
-            for(int buttonType = 0; buttonType < N_BUTTONS; buttonType++){
-                if(elevio_callButton(floor, buttonType)){
+        for (int floor = 0; floor < N_FLOORS; floor++) {
+            for (int buttonType = 0; buttonType < N_BUTTONS; buttonType++) {
+                if (elevio_callButton(floor, buttonType)) {
                     printf("Button for floor %d pressed", floor);
                     printf("Button type: %d", buttonType);
-                    addFloorOrder(floor, buttonType);
+                    controller_addFloorOrder(floor, buttonType);
                     elevio_buttonLamp(floor, buttonType, 1);
-                    if(!g_doorOpen){
-                        g_nextFloor = getDestination(g_dir, g_lastFloor);
+                    if (!g_doorOpen) {
+                        g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                     }
                 }
             }
         }
 
-        if(elevio_obstruction()){
+        if (elevio_obstruction()) {
             elevio_stopLamp(1);
         } else {
             elevio_stopLamp(0);
         }
         
-        if(elevio_stopButton()){
+        if (elevio_stopButton()) {
             elevio_motorDirection(DIRN_STOP);
             break;
         }
         
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
     }
-
 
     return 0;
 }

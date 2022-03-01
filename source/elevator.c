@@ -6,37 +6,36 @@
  */
 
 #include <stdlib.h>
-
+#include <time.h>
 
 #include "elevator.h"
 #include "driver/elevio.h"
 #include "door.h"
-#include "time.h"
-#include "queue.h"
+#include "controller.h"
 
 
 
-int moveToFloor(int destinationFloor){
+int elevator_moveToFloor(int destinationFloor) {
     int currentFloor = elevio_floorSensor();
-    if(currentFloor != -1){
-        if(currentFloor != destinationFloor){
-            if (currentFloor < destinationFloor){
+    if (currentFloor != -1) {
+        if (currentFloor != destinationFloor) {
+            if (currentFloor < destinationFloor) {
                 elevio_motorDirection(DIRN_UP);
             }
-            if (currentFloor > destinationFloor){
+            if (currentFloor > destinationFloor) {
                 elevio_motorDirection(DIRN_DOWN);
             }
             return 0;
         }
     }
-    if (currentFloor == destinationFloor){
+    if (currentFloor == destinationFloor) {
         elevio_motorDirection(DIRN_STOP);
         return 1;
     }    
 };
 //should this be in main? or elevatorcontroller?
-int checkEmergency(int floor, int* doorOpen, time_t* startTime){
-    if(elevio_stopButton()) {
+int checkEmergency(int floor, int *doorOpen, time_t *startTime){
+    if (elevio_stopButton()) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
         emptyFloorOrders();
@@ -51,7 +50,6 @@ int checkEmergency(int floor, int* doorOpen, time_t* startTime){
         return 0;    
     }
 }
-
 
 
 

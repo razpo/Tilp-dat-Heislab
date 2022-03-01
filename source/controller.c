@@ -1,9 +1,9 @@
-#include "queue.h"
+#include "controller.h"
 
-int getClosestFloor(int possibleDestinations[], int lastFloor){
+int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
     int closestDestination = -1;
 
-    for (int i = 0; i < N_FLOORS; i++){
+    for (int i = 0; i < N_FLOORS; i++) {
         if (possibleDestinations[i] == 1 && (abs(i - lastFloor) <= abs(i - closestDestination))){
             closestDestination = i;
         } 
@@ -11,32 +11,31 @@ int getClosestFloor(int possibleDestinations[], int lastFloor){
     return closestDestination;
 }
 
-int getDestination(MotorDirection direction, int lastFloor){
+int controller_getDestination(MotorDirection direction, int lastFloor) {
     int possible_destinations[] = {1,1,1,1};
 
-    for(int i = 0;i<N_FLOORS;i++){
-        if ((floorOrders[i] == NO_ORDER) || (floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (floorOrders[i] == HALL_DOWN && direction == DIRN_UP)){
+    for (int i = 0;i<N_FLOORS;i++) {
+        if ((m_floorOrders[i] == NO_ORDER) || (m_floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (m_floorOrders[i] == HALL_DOWN && direction == DIRN_UP)) {
             possible_destinations[i] = 0;
         }
     };
 
-    return getClosestFloor(possible_destinations, lastFloor);
+    return controller_getClosestFloor(possible_destinations, lastFloor);
 }
 
-void removeFloorOrder(int floor){
-    floorOrders[floor] = NO_ORDER;  
+void controller_removeFloorOrder(int floor) {
+    m_floorOrders[floor] = NO_ORDER;  
 }
 
-void emptyFloorOrders(){
-    for (int i = 0; i < N_FLOORS; i++)
-    {
-        floorOrders[i] = NO_ORDER;
+void controller_emptyFloorOrders() {
+    for (int i = 0; i < N_FLOORS; i++) {
+        m_floorOrders[i] = NO_ORDER;
     }
 }
 
-void addFloorOrder(int requestedFloor, ButtonType btnType){
-    OrderType order = floorOrders[requestedFloor];
-    if(order == NO_ORDER){
+void controller_addFloorOrder(int requestedFloor, ButtonType btnType) {
+    OrderType order = m_floorOrders[requestedFloor];
+    if (order == NO_ORDER) {
         switch (btnType){
             case BUTTON_HALL_UP:
                 order = HALL_UP;
@@ -50,8 +49,8 @@ void addFloorOrder(int requestedFloor, ButtonType btnType){
             default: 
                 break;
         }
-    } else if(order != CAB){
-        switch (btnType){
+    } else if (order != CAB) {
+        switch (btnType) {
             case BUTTON_HALL_UP:
                 if(order != HALL_UP){
                     order = HALL_UP_AND_DOWN;
@@ -70,6 +69,6 @@ void addFloorOrder(int requestedFloor, ButtonType btnType){
         }
     }
 
-    floorOrders[requestedFloor] = order;
+    m_floorOrders[requestedFloor] = order;
     printf("Order: %d \n", (int)order);
 }

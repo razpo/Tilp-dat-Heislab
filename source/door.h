@@ -15,7 +15,7 @@
  * @param[out] doorOpen Integer value for whether or not doors are open.  
  * @param[out] startTime System time when doors opened, used to count to 3 seconds.  
  */
-void openDoor(int floor, int* doorOpen, time_t* startTime);
+void door_openDoor(int floor, int *doorOpen, time_t *startTime);
 /**
  * @brief Closes the doors and sets doorOpen = 0.
  * 
@@ -23,4 +23,4 @@ void openDoor(int floor, int* doorOpen, time_t* startTime);
  * @param[out] doorOpen Integer value for whether or not doors are open.  
  * @return floor, to set lastFloor equal to last floor visited.  
  */
-int closeDoor(int floor, int* doorOpen);
+int door_closeDoor(int floor, int* doorOpen);

@@ -9,12 +9,11 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
 #include <time.h>
 #include "driver/elevio.h"
 #include "door.h"
 
-void openDoor(int floor, int* doorOpen, time_t* startTime){
+void door_openDoor(int floor, int *doorOpen, time_t *startTime) {
     printf("Arrived at %d \n", floor);
     printf("Door opening \n");
     elevio_motorDirection(DIRN_STOP);
@@ -22,7 +21,7 @@ void openDoor(int floor, int* doorOpen, time_t* startTime){
     *doorOpen = 1;
     *startTime = time(NULL);
 }
-int closeDoor(int floor, int* doorOpen){
+int door_closeDoor(int floor, int* doorOpen) {
     elevio_doorOpenLamp(0);
     printf("Door closing \n");
     *doorOpen = 0;

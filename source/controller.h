@@ -19,7 +19,7 @@ typedef enum{
 } OrderType; 
 
 
-static OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
+static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER};
 
 
 /**
@@ -32,7 +32,7 @@ static OrderType floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORDER
 
  *
  */
-int getDestination(MotorDirection direction, int lastFloor);
+int controller_getDestination(MotorDirection direction, int lastFloor);
 /**
  * @brief adds floor order to orders array when a button is pressed
  * 
@@ -41,20 +41,20 @@ int getDestination(MotorDirection direction, int lastFloor);
  * 
  */
 
-int getClosestFloor(int possibleDestinations[], int lastFloor);
+int controller_getClosestFloor(int possibleDestinations[], int lastFloor);
 
-void addFloorOrder(int requestedFloor, ButtonType btnType);
+void controller_addFloorOrder(int requestedFloor, ButtonType btnType);
 /**
  * @brief removes an order from the order array. Used when elevator has arrived
  * 
  * @param floor the floor arrived at
  */
-void removeFloorOrder(int floor);
+void controller_removeFloorOrder(int floor);
 /**
  * @brief removes all orders from the orders array. Used when emergency mode activates
  * 
  */
-void emptyFloorOrders();
+void controller_emptyFloorOrders();
 
 
 

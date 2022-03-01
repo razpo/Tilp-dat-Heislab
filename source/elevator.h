@@ -14,7 +14,7 @@
  * @param[in] destinationFloor Floor that elevator should move towards.
  * @return int 0 if elevator is not yet at destination, 1 if destination is reached. 
  */
-int moveToFloor(int destinationFloor);
+int elevator_moveToFloor(int destinationFloor);
 
 /**
  * @brief Sets elevator to emergency state. All parameters are used to open doors. 
@@ -23,4 +23,4 @@ int moveToFloor(int destinationFloor);
  * @param[in] startTime System time when doors opened, used to count to 3 seconds.  
  * @return int 0 if not emergency, 1 if emergency 
  */
-int checkEmergency(int floor, int* doorOpen, time_t* startTime);
+int checkEmergency(int floor, int *doorOpen, time_t *startTime);

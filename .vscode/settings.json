@@ -6,6 +6,7 @@
         "time.h": "c",
         "queue.h": "c",
         "door.h": "c",
-        "elevio.h": "c"
+        "elevio.h": "c",
+        "elevator.h": "c"
     }
 }
