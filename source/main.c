@@ -39,14 +39,6 @@ int main(){
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
             state = EMERGENCY;
         } 
-        for (int floor = 0; floor < N_FLOORS; floor++) {
-            for (int buttonType = 0; buttonType < N_BUTTONS; buttonType++) {
-                if (elevio_callButton(floor, buttonType)) {
-                    controller_addFloorOrder(floor, buttonType);
-                    elevio_buttonLamp(floor, buttonType, 1);
-                }
-            }
-        }
         //state machine:
         switch (state) {
             case REST:
@@ -105,6 +97,16 @@ int main(){
             default:
                 break;
         }
+        
+        for (int floor = 0; floor < N_FLOORS; floor++) {
+            for (int buttonType = 0; buttonType < N_BUTTONS; buttonType++) {
+                if (elevio_callButton(floor, buttonType)) {
+                    controller_addFloorOrder(floor, buttonType);
+                    elevio_buttonLamp(floor, buttonType, 1);
+                }
+            }
+        }
+
         if (elevio_obstruction()) {
             elevio_stopLamp(1);
         } else {
