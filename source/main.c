@@ -44,11 +44,6 @@ int main(){
         switch (state) {
             case REST:
                 printf("State: rest \n");
-                printf("Kjører test\n");
-                sleep(2);
-                int k = elevator_moveToFloor(4, DIRN_STOP);
-                sleep(2);
-                printf("Børr være i etasje 4");
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
