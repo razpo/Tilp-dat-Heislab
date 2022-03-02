@@ -43,7 +43,7 @@ int main(){
             state = EMERGENCY;
         } 
         printf("Test");
-
+        int test = 2;
         int k =  elevator_moveToFloor(test,g_dir);
         
         //state machine:
