@@ -14,7 +14,7 @@ int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
 int controller_getDestination(MotorDirection direction, int lastFloor) {
     int possible_destinations[] = {1,1,1,1};
 
-    for (int i = 0;i<N_FLOORS;i++) {
+    for (int i = 0; i < N_FLOORS; i++) {
         if ((m_floorOrders[i] == NO_ORDER) || (m_floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (m_floorOrders[i] == HALL_DOWN && direction == DIRN_UP)) {
             possible_destinations[i] = 0;
         }
@@ -28,8 +28,11 @@ void controller_removeFloorOrder(int floor) {
 }
 
 void controller_emptyFloorOrders() {
-    for (int i = 0; i < N_FLOORS; i++) {
-        m_floorOrders[i] = NO_ORDER;
+    for (int f = 0; f < N_FLOORS; f++) {
+        m_floorOrders[f] = NO_ORDER;
+        for (int b = 0; b < N_BUTTONS; b++) {
+            elevio_buttonLamp(f, b, 0);
+        }
     }
 }
 
@@ -68,7 +71,6 @@ void controller_addFloorOrder(int requestedFloor, ButtonType btnType) {
                 break;
         }
     }
-
     m_floorOrders[requestedFloor] = order;
     printf("Order: %d \n", (int)order);
 }

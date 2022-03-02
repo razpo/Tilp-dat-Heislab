@@ -7,57 +7,65 @@
 #include "door.h"
 #include "controller.h"
 
+enum states {
+    REST, 
+    EXECUTING, 
+    ARRIVED, 
+    EMERGENCY
+};
 
 int main(){
     elevio_init();
-    
-    printf("=== Example Program ===\n");
-    printf("Press the stop button on the elevator panel to exit\n");
 
+
+    printf("=== ELEVATOR INITIALISING ===\n");
+    elevator_init();
+    
     int g_nextFloor = -1;
     int g_currFloor = elevio_floorSensor();
     int g_lastFloor = -1;
     int g_doorOpen = 0;
+    enum states state = REST;
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
-    // startup: move down until elevator reaches any floor.
-    for (int f = 0; f < N_FLOORS; f++) {
-        for (int b = 0; b < N_BUTTONS; b++) {
-            elevio_buttonLamp(f, b, 0);
-        }
-    } 
-    while (g_currFloor == -1) {
-        g_currFloor = elevio_floorSensor();
-        elevio_motorDirection(g_dir);
-    } 
-    g_dir = DIRN_STOP;
-    elevio_motorDirection(g_dir);
-    printf("Elevator ready, now sleep for two seconds just for testing\n");
-    sleep(2);
-    /*
-    g_dir = DIRN_DOWN;
-    elevio_motorDirection(g_dir);
-    */
-    while (1) {
-        if (checkEmergency(g_currFloor, &g_doorOpen, &g_startTime)) {
-            g_nextFloor = -1;
-            continue;
-        } 
+
+   while (1) {
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
-
-        //test for arrivedDestination floor: when elevator reaches any floor, open door.
-        if (g_currFloor != -1 && g_currFloor != g_lastFloor) {
-            g_lastFloor = g_currFloor;
-            elevio_floorIndicator(g_lastFloor);
-            g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-        }
-        if (g_nextFloor != -1) {
-            int arrived = elevator_moveToFloor(g_nextFloor);
-            if (arrived) {
+        if (elevio_stopButton()) {
+            elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
+            g_dir = DIRN_STOP;
+            state = EMERGENCY;
+        } 
+        
+        //state machine:
+        switch (state) {
+            case REST:
+                g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                if (g_nextFloor != -1) {
+                    state = EXECUTING;
+                }
+                break;
+            case EXECUTING: {
+                printf("State: executing \n");
+                printf("destination: %d \n", g_nextFloor);
+                if (g_currFloor != -1) {
+                    g_lastFloor = g_currFloor;
+                    elevio_floorIndicator(g_lastFloor);
+                    if(controller_getDestination(g_dir, g_lastFloor) != -1){
+                        g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                    }
+                }
+                int arrived = elevator_moveToFloor(g_nextFloor, &g_dir);
+                if (arrived) {
+                    state = ARRIVED;
+                }
+                break;
+            }
+            case ARRIVED:
+                printf("State: Arrived \n");
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
-                    g_dir = DIRN_STOP;
                     for (int b = 0; b < N_BUTTONS; b++) {
                         elevio_buttonLamp(g_currFloor, b, 0);
                     }
@@ -71,21 +79,30 @@ int main(){
                         door_closeDoor(g_currFloor, &g_doorOpen);
                         //nextFloor = -1;
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                        if(g_nextFloor == -1){
+                            state = REST;
+                        } else {
+                            state = EXECUTING;
+                        }
                     }
                 }
-            }
+                break;
+            case EMERGENCY:
+                printf("State: Emergency \n");
+                if(!elevio_stopButton()) {
+                    elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
+                    state = REST;
+                }
+                break;
+            default:
+                break;
         }
-
+        
         for (int floor = 0; floor < N_FLOORS; floor++) {
             for (int buttonType = 0; buttonType < N_BUTTONS; buttonType++) {
                 if (elevio_callButton(floor, buttonType)) {
-                    printf("Button for floor %d pressed", floor);
-                    printf("Button type: %d", buttonType);
                     controller_addFloorOrder(floor, buttonType);
                     elevio_buttonLamp(floor, buttonType, 1);
-                    if (!g_doorOpen) {
-                        g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                    }
                 }
             }
         }
@@ -95,9 +112,9 @@ int main(){
         } else {
             elevio_stopLamp(0);
         }
-        
-        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
-    }
 
-    return 0;
+        nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
+   }
+   return 0;
 }
+   

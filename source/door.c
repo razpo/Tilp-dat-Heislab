@@ -14,12 +14,14 @@
 #include "door.h"
 
 void door_openDoor(int floor, int *doorOpen, time_t *startTime) {
-    printf("Arrived at %d \n", floor);
-    printf("Door opening \n");
-    elevio_motorDirection(DIRN_STOP);
-    elevio_doorOpenLamp(1);
-    *doorOpen = 1;
-    *startTime = time(NULL);
+    if (floor != -1) {
+        printf("Arrived at %d \n", floor);
+        printf("Door opening \n");
+        elevio_motorDirection(DIRN_STOP);
+        elevio_doorOpenLamp(1);
+        *doorOpen = 1;
+        *startTime = time(NULL);
+    }
 }
 int door_closeDoor(int floor, int* doorOpen) {
     elevio_doorOpenLamp(0);
