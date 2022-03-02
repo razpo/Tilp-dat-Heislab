@@ -31,7 +31,7 @@ int main(){
 
     printf("Test");
     int test = 3;
-    //int k =  elevator_moveToFloor(test,g_dir);
+    int k =  elevator_moveToFloor(test,&g_dir);
 
    while (1) {
         g_currFloor = elevio_floorSensor();
