@@ -29,6 +29,11 @@ int main(){
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
 
+    printf("Test");
+    int test = 3;
+        
+    int k =  elevator_moveToFloor(test,g_dir);
+
    while (1) {
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
@@ -37,6 +42,9 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
+        printf("Test");
+
+        int k =  elevator_moveToFloor(test,g_dir);
         
         //state machine:
         switch (state) {
