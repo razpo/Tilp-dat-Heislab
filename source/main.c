@@ -18,7 +18,7 @@ int main(){
     elevio_init();
 
 
-    printf("=== ELEVATOR INIT ===\n");
+    printf("=== ELEVATOR INITIALISING ===\n");
     elevator_init();
     
     int g_nextFloor = -1;
@@ -28,10 +28,7 @@ int main(){
     enum states state = REST;
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
-    /*
-    g_dir = DIRN_DOWN;
-    elevio_motorDirection(g_dir);
-    */
+
    while (1) {
         g_currFloor = elevio_floorSensor();
         printf("floor: %d \n",g_currFloor);  
