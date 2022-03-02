@@ -16,8 +16,6 @@ enum states {
 
 int main(){
     elevio_init();
-
-
     printf("=== ELEVATOR INITIALISING ===\n");
     elevator_init();
     
@@ -27,11 +25,10 @@ int main(){
     int g_doorOpen = 0;
     enum states state = REST;
     time_t g_startTime = time(NULL);
-    MotorDirection g_dir = DIRN_DOWN;
+    MotorDirection g_dir = DIRN_STOP;
 
    while (1) {
         g_currFloor = elevio_floorSensor();
-        printf("floor: %d \n",g_currFloor);  
         if (elevio_stopButton()) {
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
             g_dir = DIRN_STOP;
@@ -49,6 +46,7 @@ int main(){
             case EXECUTING: {
                 printf("State: executing \n");
                 printf("destination: %d \n", g_nextFloor);
+                printf("floor: %d \n",g_currFloor);  
                 if (g_currFloor != -1) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
