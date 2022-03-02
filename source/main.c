@@ -29,10 +29,9 @@ int main(){
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
    
-    MotorDirection dir = DIRN_STOP;
     printf("Test");
-    int test = 3;
-    int k =  elevator_moveToFloor(test,&dir);
+    int test = 1;
+    int k =  elevator_moveToFloor(test,&g_dir);
 
    while (1) {
         g_currFloor = elevio_floorSensor();
