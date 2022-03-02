@@ -31,7 +31,6 @@ int main(){
 
     printf("Test");
     int test = 3;
-        
     int k =  elevator_moveToFloor(test,g_dir);
 
    while (1) {
@@ -42,9 +41,7 @@ int main(){
             g_dir = DIRN_STOP;
             state = EMERGENCY;
         } 
-        printf("Test");
-        int test = 2;
-        int k =  elevator_moveToFloor(test,g_dir);
+        
         
         //state machine:
         switch (state) {
