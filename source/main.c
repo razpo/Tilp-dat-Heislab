@@ -29,10 +29,9 @@ int main(){
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_DOWN;
    
-    printf("Test");
-    int test = 1;
+    printf("Test \n");
+    int test = 3;
     int k =  elevator_moveToFloor(test,&g_dir);
-    printf("Return value: ", k);
 
    while (1) {
         g_currFloor = elevio_floorSensor();
@@ -47,6 +46,7 @@ int main(){
         //state machine:
         switch (state) {
             case REST:
+                printf("State: rest \n");
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
                     state = EXECUTING;
