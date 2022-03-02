@@ -32,7 +32,7 @@ int main(){
     printf("Test");
     int test = 1;
     int k =  elevator_moveToFloor(test,&g_dir);
-    printf(k);
+    printf("Return value: ", k);
 
    while (1) {
         g_currFloor = elevio_floorSensor();
