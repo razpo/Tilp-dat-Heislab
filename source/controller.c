@@ -1,12 +1,17 @@
+#include <stdlib.h>
+#include "driver/elevio.h"
 #include "controller.h"
 
 int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
-    int closestDestination = -1;
+    int closestDestination = N_FLOORS * 1;
 
     for (int i = 0; i < N_FLOORS; i++) {
         if (possibleDestinations[i] == 1 && (abs(i - lastFloor) <= abs(i - closestDestination))){
             closestDestination = i;
         } 
+    }
+    if (closestDestination >= N_FLOORS) {
+        closestDestination = -1;
     }
     return closestDestination;
 }

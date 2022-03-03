@@ -21,7 +21,7 @@ int main(){
     
     int g_nextFloor = -1;
     int g_currFloor = elevio_floorSensor();
-    int g_lastFloor = -1;
+    int g_lastFloor = g_currFloor;
     int g_doorOpen = 0;
     enum states state = REST;
     time_t g_startTime = time(NULL);
