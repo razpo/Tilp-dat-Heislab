@@ -15,7 +15,7 @@
  * @param[in] destinationFloor Floor that elevator should move towards.
  * @return int 0 if elevator is not yet at destination, 1 if destination is reached. 
  */
-int elevator_moveToFloor(int destinationFloor, MotorDirection *dir);
+int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir);
 
 /**
  * @brief Sets elevator to emergency state. All parameters are used to open doors. 

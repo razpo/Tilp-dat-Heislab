@@ -13,24 +13,30 @@
 #include "elevator.h"
 
 
-int elevator_moveToFloor(int destinationFloor, MotorDirection *dir) {
+int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir) {
     int currentFloor = elevio_floorSensor();
     if (currentFloor != -1) {
         if (currentFloor != destinationFloor) {
-            if (currentFloor < destinationFloor) {
+            if (lastFloor < destinationFloor) {
                 *dir = DIRN_UP;
-            }
-            if (currentFloor > destinationFloor) {
+            } else if (lastFloor > destinationFloor) {
                 *dir = DIRN_DOWN;
-            }
+            } 
             elevio_motorDirection(*dir);
+        } else {
+            *dir = DIRN_STOP;
+            elevio_motorDirection(*dir);
+            return 1;
         }
-    }
-    if (currentFloor == destinationFloor) {
-        *dir = DIRN_STOP;
+    } else if (lastFloor == destinationFloor && *dir == DIRN_STOP) {
+        printf("Uh oh...");
+        if (lastDir == DIRN_UP) {
+            *dir = DIRN_DOWN;
+        } else {
+            *dir = DIRN_UP;
+        }
         elevio_motorDirection(*dir);
-        return 1;
-    }   
+    }
     return 0; 
 }
 //should this be in main? or elevatorcontroller?

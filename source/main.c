@@ -26,12 +26,16 @@ int main(){
     enum states state = REST;
     time_t g_startTime = time(NULL);
     MotorDirection g_dir = DIRN_STOP;
+    MotorDirection g_lastDir = DIRN_STOP;
 
    while (1) {
         g_currFloor = elevio_floorSensor();
         if (elevio_stopButton()) {
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
-            g_dir = DIRN_STOP;
+            if (g_dir != DIRN_STOP) {
+                g_lastDir = g_dir;
+                g_dir = DIRN_STOP;
+            } 
             state = EMERGENCY;
         } 
         
@@ -40,28 +44,28 @@ int main(){
             case REST:
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
+                    printf("Destination now: %d \n", g_nextFloor);
                     state = EXECUTING;
                 }
                 break;
             case EXECUTING: {
-                printf("State: executing \n");
-                printf("destination: %d \n", g_nextFloor);
                 printf("floor: %d \n",g_currFloor);  
                 if (g_currFloor != -1) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
                     if(controller_getDestination(g_dir, g_lastFloor) != -1){
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                        printf("Destination now: %d \n", g_nextFloor);
                     }
-                }
-                int arrived = elevator_moveToFloor(g_nextFloor, &g_dir);
-                if (arrived) {
-                    state = ARRIVED;
+                    int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
+                    if (arrived) {
+                        state = ARRIVED;
+                        printf("State: Arrived \n");
+                    }
                 }
                 break;
             }
             case ARRIVED:
-                printf("State: Arrived \n");
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
                     for (int b = 0; b < N_BUTTONS; b++) {
@@ -77,10 +81,13 @@ int main(){
                         door_closeDoor(g_currFloor, &g_doorOpen);
                         //nextFloor = -1;
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                        printf("Destination now: %d \n", g_nextFloor);
                         if(g_nextFloor == -1){
-                            state = REST;
+                            state = REST;    
+                            printf("State: Rest \n");
                         } else {
                             state = EXECUTING;
+                            printf("State: Executing \n");
                         }
                     }
                 }
