@@ -15,7 +15,15 @@
 
 int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir) {
     int currentFloor = elevio_floorSensor();
-    if (currentFloor != -1) {
+    if (currentFloor == -1 && *dir == DIRN_STOP && lastFloor == destinationFloor) {
+        printf("Uh oh...");
+        if (lastDir == DIRN_UP) {
+            *dir = DIRN_DOWN;
+        } else {
+            *dir = DIRN_UP;
+        }
+        elevio_motorDirection(*dir);
+    } else {
         if (currentFloor != destinationFloor) {
             if (lastFloor < destinationFloor) {
                 *dir = DIRN_UP;
@@ -28,14 +36,6 @@ int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *di
             elevio_motorDirection(*dir);
             return 1;
         }
-    } else if (lastFloor == destinationFloor && *dir == DIRN_STOP) {
-        printf("Uh oh...");
-        if (lastDir == DIRN_UP) {
-            *dir = DIRN_DOWN;
-        } else {
-            *dir = DIRN_UP;
-        }
-        elevio_motorDirection(*dir);
     }
     return 0; 
 }

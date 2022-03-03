@@ -44,24 +44,21 @@ int main(){
             case REST:
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if (g_nextFloor != -1) {
-                    printf("Destination now: %d \n", g_nextFloor);
                     state = EXECUTING;
+                    printf("State: Executing \n");
                 }
                 break;
             case EXECUTING: {
-                printf("floor: %d \n",g_currFloor);  
                 if (g_currFloor != -1) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
                     if(controller_getDestination(g_dir, g_lastFloor) != -1){
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                        printf("Destination now: %d \n", g_nextFloor);
                     }
-                    int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
-                    if (arrived) {
-                        state = ARRIVED;
-                        printf("State: Arrived \n");
-                    }
+                }
+                int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
+                if (arrived) {
+                    state = ARRIVED;
                 }
                 break;
             }
@@ -75,13 +72,11 @@ int main(){
                 } else {
                     if (elevio_obstruction()) {
                         g_startTime = time(NULL);
-                        printf("Obstruction \n");
                     }
                     if (time(NULL) - g_startTime > 3) {
                         door_closeDoor(g_currFloor, &g_doorOpen);
                         //nextFloor = -1;
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                        printf("Destination now: %d \n", g_nextFloor);
                         if(g_nextFloor == -1){
                             state = REST;    
                             printf("State: Rest \n");
@@ -97,6 +92,7 @@ int main(){
                 if(!elevio_stopButton()) {
                     elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
                     state = REST;
+                    printf("State: Rest \n");
                 }
                 break;
             default:

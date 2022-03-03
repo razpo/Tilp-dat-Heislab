@@ -4,7 +4,6 @@
 
 int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
     int closestDestination = N_FLOORS * 2;
-    printf("last floor: %d \n", lastFloor);
     for (int i = 0; i < N_FLOORS; i++) {
         if (possibleDestinations[i] == 1 && (abs(i - lastFloor) < abs(i - closestDestination))){
             closestDestination = i;
@@ -13,7 +12,6 @@ int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
     if (closestDestination >= N_FLOORS) {
         closestDestination = -1;
     }
-    printf("Closest destination to %d is %d \n", lastFloor, closestDestination);
     return closestDestination;
 }
 
@@ -23,8 +21,6 @@ int controller_getDestination(MotorDirection direction, int lastFloor) {
     for (int i = 0; i < N_FLOORS; i++) {
         if ((m_floorOrders[i] == NO_ORDER) || (m_floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (m_floorOrders[i] == HALL_DOWN && direction == DIRN_UP)) {
             possible_destinations[i] = 0;
-        } else {
-            printf("Possible dest: %d \n", i);
         }
     };
 
@@ -80,5 +76,5 @@ void controller_addFloorOrder(int requestedFloor, ButtonType btnType) {
         }
     }
     m_floorOrders[requestedFloor] = order;
-    printf("Order: %d \n", (int)order);
+    printf("Order: %d \n", order);
 }
