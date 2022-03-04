@@ -31,6 +31,7 @@ int main(){
    while (1) {
         g_currFloor = elevio_floorSensor();
         if (elevio_stopButton()) {
+            //entry:
             elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
             if (g_dir != DIRN_STOP) {
                 g_lastDir = g_dir;
@@ -49,20 +50,22 @@ int main(){
                 }
                 break;
             case EXECUTING: {
-                if (g_currFloor != -1) {
+                //do:
+                int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
+                if (arrived) {
+                    state = ARRIVED;
+                }
+                if (g_currFloor != -1 && g_currFloor != g_lastFloor) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
                     if(controller_getDestination(g_dir, g_lastFloor) != -1){
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                     }
                 }
-                int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
-                if (arrived) {
-                    state = ARRIVED;
-                }
                 break;
             }
             case ARRIVED:
+                //entry: (should this be its own function?)
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
                     for (int b = 0; b < N_BUTTONS; b++) {
