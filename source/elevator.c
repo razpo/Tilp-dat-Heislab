@@ -50,7 +50,8 @@ void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int acti
             printf("Door should open!");
         }
     } else {
-        elevio_stopLamp(1);
+        elevio_stopLamp(0);
+        door_closeDoor()
     }
     
 }
