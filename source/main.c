@@ -79,7 +79,7 @@ int main(){
                         g_startTime = time(NULL);
                     }
                     if (time(NULL) - g_startTime > 3) {
-                        door_closeDoor(g_currFloor, &g_doorOpen);
+                        door_closeDoor( &g_doorOpen);
                         //nextFloor = -1;
                         g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                         if(g_nextFloor == -1){
