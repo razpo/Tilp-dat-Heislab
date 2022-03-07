@@ -23,9 +23,8 @@ void door_openDoor(int floor, int *doorOpen, time_t *startTime) {
         *startTime = time(NULL);
     }
 }
-int door_closeDoor(int floor, int* doorOpen) {
+void door_closeDoor(int floor, int* doorOpen) {
     elevio_doorOpenLamp(0);
     printf("Door closing \n");
     *doorOpen = 0;
-    return floor;
 }

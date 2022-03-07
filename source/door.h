@@ -23,4 +23,4 @@ void door_openDoor(int floor, int *doorOpen, time_t *startTime);
  * @param[out] doorOpen Integer value for whether or not doors are open.  
  * @return floor, to set lastFloor equal to last floor visited.  
  */
-int door_closeDoor(int floor, int* doorOpen);
+void door_closeDoor(int floor, int* doorOpen);
