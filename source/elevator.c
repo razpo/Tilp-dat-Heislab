@@ -46,7 +46,7 @@ void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int acti
         elevio_stopLamp(1);
         controller_emptyFloorOrders();
         printf("Floor is %d \n", floor);
-        printf("DoorOpen: %d \n", doorOpen);
+        printf("DoorOpen: %d \n", &doorOpen);
         if (floor != -1 && !&doorOpen) {
             door_openDoor(floor, &doorOpen, &startTime);
             printf("Door should open!");
