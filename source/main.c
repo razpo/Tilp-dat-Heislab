@@ -6,6 +6,7 @@
 #include "elevator.h"
 #include "door.h"
 #include "controller.h"
+#include "buttons.h"
 
 enum states {
     REST, 
@@ -70,9 +71,7 @@ int main(){
                 //entry: (should this be its own function?)
                 if (!g_doorOpen) {
                     controller_removeFloorOrder(g_currFloor);
-                    for (int b = 0; b < N_BUTTONS; b++) {
-                        elevio_buttonLamp(g_currFloor, b, 0);
-                    }
+                    buttons_clearLights(g_currFloor);
                     door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                 } else {
                     if (elevio_obstruction()) {
@@ -115,12 +114,6 @@ int main(){
                     elevio_buttonLamp(floor, buttonType, 1);
                 }
             }
-        }
-
-        if (elevio_obstruction()) {
-            elevio_stopLamp(1);
-        } else {
-            elevio_stopLamp(0);
         }
 
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
