@@ -13,18 +13,19 @@
 #include "driver/elevio.h"
 #include "door.h"
 
-void door_openDoor(int floor, int *doorOpen, time_t *startTime) {
+void door_openDoor(int floor, int *p_doorOpen) {
     if (floor != -1) {
         printf("Arrived at %d \n", floor);
         printf("Door opening \n");
-        elevio_motorDirection(DIRN_STOP);
         elevio_doorOpenLamp(1);
-        *doorOpen = 1;
-        *startTime = time(NULL);
+        *p_doorOpen = 1;
+        m_startTime = time(NULL);
     }
 }
-void door_closeDoor(int* doorOpen) {
-    elevio_doorOpenLamp(0);
-    printf("Door closing \n");
-    *doorOpen = 0;
+void door_closeDoor(int* p_doorOpen) {
+    if (time(NULL) - m_startTime >= 3){
+        elevio_doorOpenLamp(0);
+        printf("Door closing \n");
+        *p_doorOpen = 0;
+    }
 }

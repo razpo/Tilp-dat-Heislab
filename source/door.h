@@ -15,7 +15,9 @@
  * @param[out] doorOpen Integer value for whether or not doors are open.  
  * @param[out] startTime System time when doors opened, used to count to 3 seconds.  
  */
-void door_openDoor(int floor, int *doorOpen, time_t *startTime);
+static time_t m_startTime;
+
+void door_openDoor(int floor, int *doorOpen);
 /**
  * @brief Closes the doors and sets doorOpen = 0.
  * 
