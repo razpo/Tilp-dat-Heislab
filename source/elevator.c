@@ -48,11 +48,12 @@ void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int acti
         printf("Floor is %d \n", floor);
         printf("DoorOpen: %d \n", *doorOpen);
         if (floor != -1) {
-            door_openDoor(floor, &doorOpen, &startTime);
+            door_openDoor(floor, doorOpen);
             printf("Door should open!");
+            printf("DoorOpen %d \n", &doorOpen);
+            printf("DoorOpen %d \n", doorOpen);
         }
     } else {
-        door_closeDoor(&doorOpen);
         elevio_stopLamp(0);
     }
     
@@ -67,6 +68,7 @@ void elevator_init() {
             elevio_buttonLamp(f, b, 0);
         }
     }
+    elevio_doorOpenLamp(0);
     while (currFloor == -1) {
         currFloor = elevio_floorSensor();
         elevio_motorDirection(dir);
