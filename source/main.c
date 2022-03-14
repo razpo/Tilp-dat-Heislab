@@ -65,12 +65,14 @@ int main(){
                     }
                 }
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                if (elevio_obstruction()) {
-                    door_openDoor(g_currFloor, &door_openDoor);
-                }
+                
                 printf("Door open? %d \n", g_doorOpen);
                 if (g_doorOpen) {
-                    door_closeDoor(&g_doorOpen);
+                    if (elevio_obstruction()) {
+                        door_openDoor(g_currFloor, &g_doorOpen);
+                    } else {
+                        door_closeDoor(&g_doorOpen);
+                    }
                 } else {
                     if (g_nextFloor == -1) {
                         g_state = REST;
