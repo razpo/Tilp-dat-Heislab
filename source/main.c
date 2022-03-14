@@ -32,7 +32,7 @@ int main(){
 
    while (1) {
         g_currFloor = elevio_floorSensor();
-        if (elevio_stopButton()) {
+        if (elevio_stopButton()){
             g_state = EMERGENCY;
         } 
         
@@ -43,16 +43,13 @@ int main(){
                     g_prev_state = g_state;
                 }
                 int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
-                if (arrived)
-                {
+                if (arrived){
                     g_state = REST;
                 }
-                if (g_currFloor != -1 && g_currFloor != g_lastFloor)
-                {
+                if (g_currFloor != -1 && g_currFloor != g_lastFloor){
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
-                    if (controller_getDestination(g_dir, g_lastFloor) == g_lastFloor)
-                    {
+                    if (controller_getDestination(g_dir, g_lastFloor) == g_lastFloor){
                         g_state = REST;
                     }
                 }
@@ -81,19 +78,16 @@ int main(){
                 }
                 break;
             case EMERGENCY:
-                if (g_state != g_prev_state)
-                {
+                if (g_state != g_prev_state){
                     printf("State: Emergency \n");
                     g_prev_state = g_state;
                     elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
-                    if (g_dir != DIRN_STOP)
-                    {
+                    if (g_dir != DIRN_STOP){
                         g_lastDir = g_dir;
                         g_dir = DIRN_STOP;
                     }
 
-                    if (!elevio_stopButton())
-                    {
+                    if (!elevio_stopButton()){
                         elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
                         g_state = REST;
                     }
@@ -107,5 +101,6 @@ int main(){
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
    }
    return 0;
+}
 }
    
