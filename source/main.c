@@ -32,69 +32,70 @@ int main(){
 
    while (1) {
         g_currFloor = elevio_floorSensor();
-        if (elevio_stopButton()){
+        if (elevio_stopButton()) {
             g_state = EMERGENCY;
         } 
         
         switch (g_state) {
             case EXECUTING: 
-                if (g_state != g_prev_state){
+                if (g_state != g_prev_state) {
                     printf("State: Executing \n");
                     g_prev_state = g_state;
                 }
                 int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
-                if (arrived){
+                if (arrived) {
                     g_state = REST;
                 }
-                if (g_currFloor != -1 && g_currFloor != g_lastFloor){
+                if (g_currFloor != -1 && g_currFloor != g_lastFloor) {
                     g_lastFloor = g_currFloor;
                     elevio_floorIndicator(g_lastFloor);
-                    if (controller_getDestination(g_dir, g_lastFloor) == g_lastFloor){
-                        g_state = REST;
+                    if (controller_getDestination(g_dir, g_lastFloor) == g_lastFloor) {
+                        g_nextFloor = g_lastFloor;
                     }
                 }
                 break;
             case REST:
-                if(g_state != g_prev_state){
+                if (g_state != g_prev_state) {
                     printf("State: REST \n");
                     g_prev_state = g_state;
-                    if(g_currFloor != -1){
+                    if (g_currFloor != -1 && g_nextFloor != -1) {
                         controller_removeFloorOrder(g_currFloor);
                         buttons_clearLights(g_currFloor);
-                        door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
-                        g_startTime = time(NULL);
+                        door_openDoor(g_currFloor, &g_doorOpen);
                     }
                 }
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
-                if(elevio_obstruction()){
-                    g_startTime = time(NULL);
-                }
-                if (time(NULL) - g_startTime > 3 && g_doorOpen){
-                    door_closeDoor(&g_doorOpen);
-                    if (g_nextFloor == -1){
-                        g_state = REST;
+                
+                printf("Door open? %d \n", g_doorOpen);
+                if (g_doorOpen) {
+                    if (elevio_obstruction()) {
+                        door_openDoor(g_currFloor, &g_doorOpen);
+                    } else {
+                        door_closeDoor(&g_doorOpen);
                     }
-                    else{
+                } else {
+                    if (g_nextFloor == -1) {
+                        g_state = REST;
+                    } else {
                         g_state = EXECUTING;
                     }
-                }
+                }   
                 break;
             case EMERGENCY:
-                if (g_state != g_prev_state){
+                if (g_state != g_prev_state) {
                     printf("State: Emergency \n");
                     g_prev_state = g_state;
-                    elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
-                    if (g_dir != DIRN_STOP){
+                    if (g_dir != DIRN_STOP) {
                         g_lastDir = g_dir;
                         g_dir = DIRN_STOP;
                     }
                 }
-
-                if (!elevio_stopButton()){
+                elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
+                if (!elevio_stopButton()) {
                     elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
                     g_state = REST;
                 }
-                    break;
+                break;
                 default:
                     break;
                 }
