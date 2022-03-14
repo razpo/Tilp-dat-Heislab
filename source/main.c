@@ -60,10 +60,10 @@ int main(){
                     g_prev_state = g_state;
                     if(g_currFloor != -1){
                         controller_removeFloorOrder(g_currFloor);
+                        buttons_clearLights(g_currFloor);
+                        door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
+                        g_startTime = time(NULL);
                     }
-                    buttons_clearLights(g_currFloor);
-                    door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
-                    g_startTime = time(NULL);
                 }
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if(elevio_obstruction()){
