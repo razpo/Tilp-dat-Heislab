@@ -7,7 +7,7 @@ void buttons_clearLights(int floor) {
     }
 }
 
-void buttons_getButtonPress(){
+void buttons_registerButtonPresses(){
     for (int floor = 0; floor < N_FLOORS; floor++) {
         for (int buttonType = 0; buttonType < N_BUTTONS; buttonType++) {
             if (elevio_callButton(floor, buttonType)) {
