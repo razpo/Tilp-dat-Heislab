@@ -58,16 +58,18 @@ int main(){
                 if(g_state != g_prev_state){
                     printf("State: REST \n");
                     g_prev_state = g_state;
-                    controller_removeFloorOrder(g_currFloor);
-                    g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
+                    if(g_currFloor != -1){
+                        controller_removeFloorOrder(g_currFloor);
+                    }
                     buttons_clearLights(g_currFloor);
                     door_openDoor(g_currFloor, &g_doorOpen, &g_startTime);
                     g_startTime = time(NULL);
                 }
+                g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 if(elevio_obstruction()){
                     g_startTime = time(NULL);
                 }
-                if (time(NULL) - g_startTime > 3){
+                if (time(NULL) - g_startTime > 3 && g_doorOpen){
                     door_closeDoor(&g_doorOpen);
                     if (g_nextFloor == -1){
                         g_state = REST;
@@ -86,11 +88,12 @@ int main(){
                         g_lastDir = g_dir;
                         g_dir = DIRN_STOP;
                     }
+                }
 
-                    if (!elevio_stopButton()){
-                        elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
-                        g_state = REST;
-                    }
+                if (!elevio_stopButton()){
+                    elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
+                    g_state = REST;
+                }
                     break;
                 default:
                     break;
@@ -102,5 +105,5 @@ int main(){
    }
    return 0;
 }
-}
+
    
