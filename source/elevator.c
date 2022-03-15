@@ -16,7 +16,6 @@
 int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir) {
     int currentFloor = elevio_floorSensor();
     if (currentFloor == -1 && *dir == DIRN_STOP && lastFloor == destinationFloor) {
-        printf("Uh oh...");
         if (lastDir == DIRN_UP) {
             *dir = DIRN_DOWN;
         } else {
@@ -39,13 +38,12 @@ int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *di
     }
     return 0; 
 }
-//should this be in main? or elevatorcontroller?
+
 void elevator_setEmergency(int floor, int *doorOpen, int activate) {
     if (activate) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
         controller_emptyFloorOrders();
-        printf("Floor is %d \n", floor);
         if (floor != -1) {
             door_openDoor(floor, doorOpen);
         }
@@ -57,7 +55,6 @@ void elevator_setEmergency(int floor, int *doorOpen, int activate) {
 void elevator_init() {
     MotorDirection dir = DIRN_DOWN;
     int currFloor = elevio_floorSensor();
-    // startup: move down until elevator reaches any floor.
     for (int f = 0; f < N_FLOORS; f++) {
         for (int b = 0; b < N_BUTTONS; b++) {
             elevio_buttonLamp(f, b, 0);

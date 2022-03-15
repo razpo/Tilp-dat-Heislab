@@ -30,12 +30,12 @@ int main(){
     MotorDirection g_dir = DIRN_STOP;
     MotorDirection g_lastDir = DIRN_STOP;
 
-   while (1) {
+    while (1) {
         g_currFloor = elevio_floorSensor();
         if (elevio_stopButton()) {
             g_state = EMERGENCY;
         } 
-        
+
         switch (g_state) {
             case EXECUTING: 
                 if (g_state != g_prev_state) {
