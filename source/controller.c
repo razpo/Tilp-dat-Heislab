@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include "driver/elevio.h"
 #include "controller.h"
+#include "buttons.h"
 
 int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
     int closestDestination = N_FLOORS * 2;
@@ -34,9 +35,7 @@ void controller_removeFloorOrder(int floor) {
 void controller_emptyFloorOrders() {
     for (int f = 0; f < N_FLOORS; f++) {
         m_floorOrders[f] = NO_ORDER;
-        for (int b = 0; b < N_BUTTONS; b++) {
-            elevio_buttonLamp(f, b, 0);
-        }
+        buttons_clearLights(f);
     }
 }
 

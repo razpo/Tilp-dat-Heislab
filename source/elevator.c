@@ -55,12 +55,9 @@ void elevator_setEmergency(int floor, int *doorOpen, int activate) {
 void elevator_init() {
     MotorDirection dir = DIRN_DOWN;
     int currFloor = elevio_floorSensor();
-    for (int f = 0; f < N_FLOORS; f++) {
-        for (int b = 0; b < N_BUTTONS; b++) {
-            elevio_buttonLamp(f, b, 0);
-        }
-    }
+    controller_emptyFloorOrders();
     elevio_doorOpenLamp(0);
+    elevio_stopLamp(0);
     while (currFloor == -1) {
         currFloor = elevio_floorSensor();
         elevio_motorDirection(dir);
