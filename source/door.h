@@ -8,21 +8,19 @@
  * 
  */
 #pragma once
+
+static time_t m_startTime;
 /**
- * @brief Opens the doors, starts the timer, and sets doorOpen = 1. 
+ * @brief Opens the doors, starts the timer, and sets \a doorOpen = 1. 
  * 
  * @param[in] floor The floor the elevator currently is at.  
- * @param[out] doorOpen Integer value for whether or not doors are open.  
- * @param[out] startTime System time when doors opened, used to count to 3 seconds.  
+ * @param[out] doorOpen Integer value for whether or not doors are open.   
  */
-static time_t m_startTime;
-
 void door_openDoor(int floor, int *doorOpen);
 /**
- * @brief Closes the doors and sets doorOpen = 0.
+ * @brief Closes the doors and sets \a doorOpen = 0, if 3 seconds have passed since timer started. 
  * 
  * @param[in] floor The floor the elevator currently is at.
  * @param[out] doorOpen Integer value for whether or not doors are open.  
- * @return floor, to set lastFloor equal to last floor visited.  
  */
 void door_closeDoor( int* doorOpen);

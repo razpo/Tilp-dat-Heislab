@@ -22,35 +22,41 @@ static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORD
 
 
 /**
- * @brief returns the elevator destination based on elevators movement and position and order array
+ * @brief Returns the elevator destination based on elevators movement, position and order array.
+ * The function has a array \a possibleDestinations[] where each element is 0 or 1, depending on whether the elevator should service the floor at the corresponding index. 
  *
- * @param direction direction of elevators movement
- * @param position position of the elevator, either at or inbetween floors
+ * @param[in] direction Direction of elevators movement.
+ * @param[in] lastFloor Floor elevator last visited. 
  * 
- * @return elevator desination
+ * @return Elevator's destination
 
  *
  */
 int controller_getDestination(MotorDirection direction, int lastFloor);
 /**
- * @brief adds floor order to orders array when a button is pressed
+ * @brief Find the closest floor to elevators last visited floor. Is used to give the elevator the most optimal destination.
  * 
- * @param requestedFloor 
- * @param btnType 
- * 
+ * @param[in] possibleDestinations A list of destinations that elevator should visit. 
+ * @param[in] lastFloor Floor elevator last visited. 
+ * @return int The closest floor to the elevators last visited floor. 
  */
-
 int controller_getClosestFloor(int possibleDestinations[], int lastFloor);
-
+/**
+ * @brief Adds an order to the array \a m_floorOrders, according to which button has been pressed. 
+ * ButtonType \a CAB takes priority, so if the order in the array is \a CAB, it will not be changed. 
+ * 
+ * @param[in] requestedFloor The floor where a request was added. 
+ * @param[in] btnType Which type of button was pressed. 
+ */
 void controller_addFloorOrder(int requestedFloor, ButtonType btnType);
 /**
- * @brief removes an order from the order array. Used when elevator has arrived
+ * @brief Removes an order from the order array. Used when elevator has arrived
  * 
- * @param floor the floor arrived at
+ * @param[in] floor The floor that has been servived. 
  */
 void controller_removeFloorOrder(int floor);
 /**
- * @brief removes all orders from the orders array. Used when emergency mode activates
+ * @brief Removes all orders from the \a m_floorOrders array. Used when emergency mode activates
  * 
  */
 void controller_emptyFloorOrders();

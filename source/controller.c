@@ -42,7 +42,7 @@ void controller_emptyFloorOrders() {
 void controller_addFloorOrder(int requestedFloor, ButtonType btnType) {
     OrderType order = m_floorOrders[requestedFloor];
     if (order == NO_ORDER) {
-        switch (btnType){
+        switch (btnType) {
             case BUTTON_HALL_UP:
                 order = HALL_UP;
                 break;

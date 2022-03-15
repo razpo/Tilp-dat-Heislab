@@ -53,19 +53,16 @@ void elevator_setEmergency(int floor, int *doorOpen, int activate) {
 }
 
 void elevator_init() {
-    MotorDirection dir = DIRN_DOWN;
     int currFloor = elevio_floorSensor();
     controller_emptyFloorOrders();
     elevio_doorOpenLamp(0);
     elevio_stopLamp(0);
     while (currFloor == -1) {
         currFloor = elevio_floorSensor();
-        elevio_motorDirection(dir);
+        elevio_motorDirection(DIRN_DOWN);
     }
-    dir = DIRN_STOP;
-    elevio_motorDirection(dir);
-    printf("Elevator ready, now sleep for two seconds just for testing\n");
-    sleep(2);
+    elevio_motorDirection(DIRN_STOP);
+    printf("Elevator ready\n");
 }
 
 
