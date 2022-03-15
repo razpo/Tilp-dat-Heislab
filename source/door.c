@@ -15,7 +15,6 @@
 
 void door_openDoor(int floor, int *p_doorOpen) {
     if (floor != -1) {
-        printf("Arrived at %d \n", floor);
         printf("Door opening \n");
         elevio_doorOpenLamp(1);
         *p_doorOpen = 1;

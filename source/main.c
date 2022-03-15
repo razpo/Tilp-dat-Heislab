@@ -56,7 +56,7 @@ int main(){
                 break;
             case REST:
                 if (g_state != g_prev_state) {
-                    printf("State: REST \n");
+                    printf("State: Rest \n");
                     g_prev_state = g_state;
                     if (g_currFloor != -1 && g_nextFloor != -1) {
                         controller_removeFloorOrder(g_currFloor);
@@ -66,7 +66,6 @@ int main(){
                 }
                 g_nextFloor = controller_getDestination(g_dir, g_lastFloor);
                 
-                printf("Door open? %d \n", g_doorOpen);
                 if (g_doorOpen) {
                     if (elevio_obstruction()) {
                         door_openDoor(g_currFloor, &g_doorOpen);
@@ -90,18 +89,16 @@ int main(){
                         g_dir = DIRN_STOP;
                     }
                 }
-                elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 1);
+                elevator_setEmergency(g_currFloor, &g_doorOpen, 1);
                 if (!elevio_stopButton()) {
-                    elevator_setEmergency(g_currFloor, &g_doorOpen, &g_startTime, 0);
+                    elevator_setEmergency(g_currFloor, &g_doorOpen, 0);
                     g_state = REST;
                 }
                 break;
-                default:
-                    break;
-                }
-
+            default:
+                break;
+        }
         buttons_registerButtonPresses();
-
         nanosleep(&(struct timespec){0, 20*1000*1000}, NULL);
    }
    return 0;

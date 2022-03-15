@@ -76,5 +76,4 @@ void controller_addFloorOrder(int requestedFloor, ButtonType btnType) {
         }
     }
     m_floorOrders[requestedFloor] = order;
-    printf("Order: %d \n", order);
 }

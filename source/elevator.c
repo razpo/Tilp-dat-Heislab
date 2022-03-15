@@ -40,23 +40,18 @@ int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *di
     return 0; 
 }
 //should this be in main? or elevatorcontroller?
-void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int activate) {
+void elevator_setEmergency(int floor, int *doorOpen, int activate) {
     if (activate) {
         elevio_motorDirection(DIRN_STOP);
         elevio_stopLamp(1);
         controller_emptyFloorOrders();
         printf("Floor is %d \n", floor);
-        printf("DoorOpen: %d \n", *doorOpen);
         if (floor != -1) {
             door_openDoor(floor, doorOpen);
-            printf("Door should open!");
-            printf("DoorOpen %d \n", &doorOpen);
-            printf("DoorOpen %d \n", doorOpen);
         }
     } else {
         elevio_stopLamp(0);
     }
-    
 }
 
 void elevator_init() {

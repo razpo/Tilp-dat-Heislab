@@ -24,6 +24,6 @@ int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *di
  * @param[in] startTime System time when doors opened, used to count to 3 seconds.  
  * @param[in] activate 1 if emergency should be set, 0 if emergency should be unset
  */
-void elevator_setEmergency(int floor, int *doorOpen, time_t *startTime, int activate);
+void elevator_setEmergency(int floor, int *doorOpen, int activate);
 
 void elevator_init();
