@@ -1,3 +1,10 @@
+/**
+ * @file controller.c
+ * @brief Implementation of functions for managing queue order and destination floor. 
+ * @date 2022-03-16
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdlib.h>
 #include "driver/elevio.h"
 #include "controller.h"

@@ -1,3 +1,11 @@
+/**
+ * @file buttons.c
+ * @brief Implementation of the button-functions. 
+ * @date 2022-03-16
+ * 
+ * @copyright Copyright (c) 2022
+ * 
+ */
 #include <stdlib.h>
 #include "driver/elevio.h"
 #include "buttons.h"

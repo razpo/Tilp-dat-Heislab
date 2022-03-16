@@ -1,5 +1,5 @@
 /**
- * @file queue.h
+ * @file controller.h
  * @brief Function for managing the floor queue and sending floor destination to elevator
  * @version 0.1
  * @date 2022-02-22
@@ -23,7 +23,8 @@ static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORD
 
 /**
  * @brief Returns the elevator destination based on elevators movement, position and order array.
- * The function has a array \a possibleDestinations[] where each element is 0 or 1, depending on whether the elevator should service the floor at the corresponding index. 
+ * The function has an array \a possibleDestinations[] where each element is 0 or 1, depending on whether the elevator should service the floor at the corresponding index.
+ * This is determined by the elevators direction, and the direction of the orders at the floors.  
  *
  * @param[in] direction Direction of elevators movement.
  * @param[in] lastFloor Floor elevator last visited. 
@@ -35,7 +36,8 @@ static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORD
 int controller_getDestination(MotorDirection direction, int lastFloor);
 /**
  * @brief Find the closest floor to elevators last visited floor. Is used to give the elevator the most optimal destination.
- * 
+ * Example: \p possibleDestinations = [0 0 1 1], \p lastFloor = 1. Returns 2. 
+ * Function biases upwards.
  * @param[in] possibleDestinations A list of destinations that elevator should visit. 
  * @param[in] lastFloor Floor elevator last visited. 
  * @return int The closest floor to the elevators last visited floor. 
