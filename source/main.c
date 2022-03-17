@@ -42,8 +42,8 @@ int main(){
                     printf("State: Executing \n");
                     g_prev_state = g_state;
                 }
-                int arrived = elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
-                if (arrived) {
+                elevator_moveToFloor(g_nextFloor, g_lastFloor, &g_dir, g_lastDir);
+                if (elevator_checkArrived(g_nextFloor, &g_dir)) {
                     g_state = REST;
                 }
                 if (g_currFloor != -1 && g_currFloor != g_lastFloor) {

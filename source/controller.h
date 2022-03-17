@@ -23,13 +23,13 @@ static OrderType m_floorOrders[N_FLOORS] = {NO_ORDER, NO_ORDER, NO_ORDER, NO_ORD
 
 /**
  * @brief Returns the elevator destination based on elevators movement, position and order array.
- * The function has an array \a possibleDestinations[] where each element is 0 or 1, depending on whether the elevator should service the floor at the corresponding index.
+ * The function has an array \p possibleDestinations[] where each element is 0 or 1, depending on whether the elevator should service the floor at the corresponding index.
  * This is determined by the elevators direction, and the direction of the orders at the floors.  
  *
  * @param[in] direction Direction of elevators movement.
  * @param[in] lastFloor Floor elevator last visited. 
  * 
- * @return Elevator's destination
+ * @return int Elevator's destination
 
  *
  */
@@ -44,8 +44,8 @@ int controller_getDestination(MotorDirection direction, int lastFloor);
  */
 int controller_getClosestFloor(int possibleDestinations[], int lastFloor);
 /**
- * @brief Adds an order to the array \a m_floorOrders, according to which button has been pressed. 
- * ButtonType \a CAB takes priority, so if the order in the array is \a CAB, it will not be changed. 
+ * @brief Adds an order to the array \p m_floorOrders, according to which button has been pressed. 
+ * ButtonType \p CAB takes priority, so if the order in the array is \p CAB, it will not be changed. 
  * 
  * @param[in] requestedFloor The floor where a request was added. 
  * @param[in] btnType Which type of button was pressed. 
@@ -58,7 +58,7 @@ void controller_addFloorOrder(int requestedFloor, ButtonType btnType);
  */
 void controller_removeFloorOrder(int floor);
 /**
- * @brief Removes all orders from the \a m_floorOrders array. Used when emergency mode activates
+ * @brief Removes all orders from the \p m_floorOrders array. Used when emergency mode activates
  * 
  */
 void controller_emptyFloorOrders();

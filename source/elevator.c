@@ -13,7 +13,7 @@
 #include "elevator.h"
 
 
-int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir) {
+void elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *dir, MotorDirection lastDir) {
     int currentFloor = elevio_floorSensor();
     if (currentFloor == -1 && *dir == DIRN_STOP && lastFloor == destinationFloor) {
         if (lastDir == DIRN_UP) {
@@ -23,20 +23,23 @@ int elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *di
         }
         elevio_motorDirection(*dir);
     } else {
-        if (currentFloor != destinationFloor) {
-            if (lastFloor < destinationFloor) {
-                *dir = DIRN_UP;
-            } else if (lastFloor > destinationFloor) {
-                *dir = DIRN_DOWN;
-            } 
-            elevio_motorDirection(*dir);
-        } else {
-            *dir = DIRN_STOP;
-            elevio_motorDirection(*dir);
-            return 1;
-        }
+        if (lastFloor < destinationFloor) {
+            *dir = DIRN_UP;
+        } else if (lastFloor > destinationFloor) {
+            *dir = DIRN_DOWN;
+        } 
+        elevio_motorDirection(*dir);
     }
-    return 0; 
+}
+int elevator_checkEmergency(int destinationFloor, MotorDirection *dir) {
+    int currentFloor = elevio_floorSensor();
+    if (currentFloor == destinationFloor) {
+        *dir = DIRN_STOP;
+        elevio_motorDirection(*dir);
+        return 1;
+    } else {
+        return 0;
+    }
 }
 
 void elevator_setEmergency(int floor, int *doorOpen, int activate) {
