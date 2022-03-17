@@ -11,7 +11,7 @@
 
 /**
  * @brief Decides whether elevator should move up or down to reach destination floor. Function is continuously called, until floor is reached. 
- * Checks whether elevator is above or below destination floor, and also whether or not elevator is coming out of \a emergency state. 
+ * Checks whether elevator is above or below destination floor, and also whether or not elevator is coming out of \p emergency state. 
  * 
  * @param[in] destinationFloor Floor that elevator should move towards.
  * @param[in] lastFloor  Last defined floor elevator visited. 
@@ -28,10 +28,10 @@ void elevator_moveToFloor(int destinationFloor, int lastFloor, MotorDirection *d
  */
 int elevator_checkArrived(int destinationFloor, MotorDirection *dir);
 /**
- * @brief Sets elevator to \a emergency state. Most parameters are used to open doors. 
+ * @brief Sets elevator to \p emergency state. Most parameters are used to open doors. 
  * @param[in] floor The floor the elevator currently is at.  
  * @param[in] doorOpen Integer value for whether or not doors are open.  
- * @param[in] activate 1 if \a emergency should be set, 0 if emergency should be unset
+ * @param[in] activate 1 if \p emergency should be set, 0 if emergency should be unset
  */
 void elevator_setEmergency(int floor, int *doorOpen, int activate);
 /**
