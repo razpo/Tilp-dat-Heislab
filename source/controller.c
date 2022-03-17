@@ -24,11 +24,13 @@ int controller_getClosestFloor(int possibleDestinations[], int lastFloor) {
 }
 
 int controller_getDestination(MotorDirection direction, int lastFloor) {
-    int possible_destinations[] = {1,1,1,1};
+    int possible_destinations[N_FLOORS];
 
     for (int i = 0; i < N_FLOORS; i++) {
         if ((m_floorOrders[i] == NO_ORDER) || (m_floorOrders[i] == HALL_UP && direction == DIRN_DOWN) || (m_floorOrders[i] == HALL_DOWN && direction == DIRN_UP)) {
             possible_destinations[i] = 0;
+        } else {
+            possible_destinations[i] = 1;
         }
     };
 
